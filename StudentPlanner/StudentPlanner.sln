@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentPlanner.PL", "StudentPlanner.PL\StudentPlanner.PL.csproj", "{6BE0D131-388C-47C2-9FFA-005529378D07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentPlanner.BLL", "StudentPlanner.BLL\StudentPlanner.BLL.csproj", "{61BD48BB-1CC8-437D-AC43-730B82B4DFC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentPlanner.DAL", "StudentPlanner.DAL\StudentPlanner.DAL.csproj", "{FB1FA039-762F-4FDC-A979-F65A05C2F1DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6BE0D131-388C-47C2-9FFA-005529378D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BE0D131-388C-47C2-9FFA-005529378D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BE0D131-388C-47C2-9FFA-005529378D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61BD48BB-1CC8-437D-AC43-730B82B4DFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61BD48BB-1CC8-437D-AC43-730B82B4DFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61BD48BB-1CC8-437D-AC43-730B82B4DFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61BD48BB-1CC8-437D-AC43-730B82B4DFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB1FA039-762F-4FDC-A979-F65A05C2F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB1FA039-762F-4FDC-A979-F65A05C2F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB1FA039-762F-4FDC-A979-F65A05C2F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB1FA039-762F-4FDC-A979-F65A05C2F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
