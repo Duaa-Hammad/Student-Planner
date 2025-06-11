@@ -5,20 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentPlanner.DAL.Entities
+namespace StudentPlanner.BLL.Models
 {
-    public class Assignment
+   public class AssignmentVM
     {
         public int Id { get; set; } //PK
         public int CourseId { get; set; } //FK
+        [Required]
         public string Title { get; set; } //Like "Doing a Research"
         public string? Description { get; set; }
+        [Required]
         public DateTime DueDate { get; set; }
         public bool IsDone { get; set; }
-        //----------------------------
-        // Navigation properties
-        //----------------------------
-        public virtual Course Course { get; set; } // Navigation property to Course
-        public virtual List<Reminder> Reminders { get; set; } // Navigation property to Reminders
     }
 }

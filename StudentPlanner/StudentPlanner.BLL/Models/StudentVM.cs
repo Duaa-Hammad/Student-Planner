@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentPlanner.DAL.Entities
+namespace StudentPlanner.BLL.Models
 {
-    public class Student
+    public class StudentVM
     {
         public int Id { get; set; }
 
@@ -16,9 +16,5 @@ namespace StudentPlanner.DAL.Entities
         [Required, EmailAddress]
         public string Email { get; set; }
         public int? Semester { get; set; }
-        //----------------------------
-        // Navigation properties
-        //----------------------------
-        public virtual List<Course> Courses { get; set; }
     }
 }

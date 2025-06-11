@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentPlanner.DAL.Entities
+namespace StudentPlanner.BLL.Models
 {
-    public class Reminder
+    public class ReminderVM
     {
         public int Id { get; set; }
         public int? AssignmentId { get; set; } //FK
@@ -15,10 +15,5 @@ namespace StudentPlanner.DAL.Entities
         public bool IsSent { get; set; }
         [Required]
         public DateTime ReminderTime { get; set; }
-        //----------------------------
-        // Navigation properties
-        //----------------------------
-        public virtual Exam? Exam { get; set; } // Navigation property to Exam
-        public virtual Assignment? Assignment { get; set; } // Navigation property to Assignment
     }
 }
