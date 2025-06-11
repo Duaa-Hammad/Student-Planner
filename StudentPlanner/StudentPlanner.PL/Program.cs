@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 //----------------------------------------------------------
 // Connection String
 var connectionString = builder.Configuration.GetConnectionString("StPlannerConnection");
+
 if (string.IsNullOrWhiteSpace(connectionString))
     throw new InvalidOperationException("Connection string 'StPlannerConnection' not found.");
 
