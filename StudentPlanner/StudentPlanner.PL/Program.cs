@@ -1,11 +1,19 @@
 using Microsoft.EntityFrameworkCore;
+using StudentPlanner.BLL.Interfaces;
+using StudentPlanner.BLL.Mapper;
+using StudentPlanner.BLL.Repository;
 using StudentPlanner.DAL.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//----------------------------------------------------------
+//Registering the Course Repository in Dependency Injection
+//Object Lifetime - Scoped > one object for each user deals with all operations
+builder.Services.AddScoped<ICourse, CourseRepo>();
+//----------------------------------------------------------
+builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
 //----------------------------------------------------------
 // Connection String
 var connectionString = builder.Configuration.GetConnectionString("StPlannerConnection");
