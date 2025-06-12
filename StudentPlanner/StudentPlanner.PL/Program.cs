@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //----------------------------------------------------------
+<<<<<<< HEAD
 builder.Services.AddHostedService<ReminderBackgroundService>();
 
 //Registering the Course Repository in Dependency Injection
@@ -26,6 +27,13 @@ builder.Services.AddScoped<IEmail, EmailRepo>();
 //Mapping
 //builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
 builder.Services.AddAutoMapper(typeof(DomainProfile));
+=======
+//Registering the Course Repository in Dependency Injection
+//Object Lifetime - Scoped > one object for each user deals with all operations
+builder.Services.AddScoped<ICourse, CourseRepo>();
+//----------------------------------------------------------
+builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
+>>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
 //----------------------------------------------------------
 // Connection String
 var connectionString = builder.Configuration.GetConnectionString("StPlannerConnection");
