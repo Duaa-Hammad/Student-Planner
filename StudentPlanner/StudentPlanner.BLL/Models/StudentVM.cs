@@ -16,5 +16,9 @@ namespace StudentPlanner.BLL.Models
         [Required, EmailAddress]
         public string Email { get; set; }
         public int? Semester { get; set; }
+        //--------------------------------------------------
+        //Authentication properties
+        public string IdentityUserId { get; set; } //FK
+        public DateTime CreatedAt { get; set; }
     }
 }

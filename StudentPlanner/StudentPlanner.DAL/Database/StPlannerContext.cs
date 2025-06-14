@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using StudentPlanner.DAL.Entities;
+using StudentPlanner.DAL.Extends;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StudentPlanner.DAL.Database
 {
-    public class StPlannerContext: DbContext
+    public class StPlannerContext: IdentityDbContext<ApplicationUser>
     {
         public StPlannerContext(DbContextOptions<StPlannerContext> options) : base(options)
         {

@@ -13,6 +13,7 @@ namespace StudentPlanner.DAL.Entities
         public int StudentId { get; set; } //FK to Student
         [Required]
         public string Name { get; set; }
+        public string Code { get; set; }
         [Required]
         public int Hours { get; set; }
 

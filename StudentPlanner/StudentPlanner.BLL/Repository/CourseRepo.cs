@@ -17,13 +17,14 @@ namespace StudentPlanner.BLL.Repository
         {
             this.data = data;
         }
-        public async Task<List<Course>> GetAllCoursesAsync()
+        public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
             return await data.Courses.ToListAsync();
         }
-        public async Task<Course> GetCourseByIdAsync(int id)
+        public async Task<Course> GetCourseByIdAsync(int Id)
         {
-            return await data.Courses.FindAsync(id);
+            //return await data.Courses.FindAsync(id);
+            return await data.Courses.Where(a => a.Id == Id).FirstOrDefaultAsync();
         }
         public async Task AddCourseAsync(Course course)
         {

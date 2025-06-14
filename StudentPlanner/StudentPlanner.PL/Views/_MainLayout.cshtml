@@ -158,8 +158,10 @@
                            
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                                <a asp-controller="Account" asp-action="Test" class="btn btn-default btn-flat">Profile</a>
+                                <a asp-controller="Account" asp-action="Login" class="btn btn-default btn-flat float-end">Sign in/out</a>
+                                <a asp-controller="Account" asp-action="MyTest" class="btn btn-default btn-flat float-end">MyTest</a>
+
                             </li>
                             <!--end::Menu Footer-->
                         </ul>
@@ -284,7 +286,6 @@
             </div>
             <!--end::App Content Header-->
             </main>
-
             </div>
            
 

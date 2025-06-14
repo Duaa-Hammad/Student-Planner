@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using StudentPlanner.BLL.Models;
 using StudentPlanner.DAL.Entities;
+using StudentPlanner.DAL.Extends;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace StudentPlanner.BLL.Mapper
             // CreateMap<SourceEntity, DestinationEntity>();
              CreateMap<CourseVM, Course>();
             CreateMap<Course, CourseVM>();
+
+            //When filling ApplicationUser.UserName, use the Email from RegistrationVM.
+            CreateMap<RegistrationVM, ApplicationUser>().
+            ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
         }
     }
 }

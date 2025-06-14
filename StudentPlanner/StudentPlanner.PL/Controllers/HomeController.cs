@@ -1,11 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
+using StudentPlanner.BLL.Models;
 
 namespace StudentPlanner.PL.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
-    {
-        return View();
-    }
+      public IActionResult Index()
+        {
+            List<AssignmentExam> viewModel = new List<AssignmentExam>();
+    
+            // ?? ???? ?????? ?????? ?? ????? ?????? ?? ????? ????? ???
+            // ????: viewModel = await _service.GetAssignmentExamsAsync();
+
+           return View(viewModel);
+      }
 }

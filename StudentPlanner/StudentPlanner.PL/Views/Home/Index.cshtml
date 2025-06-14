@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<StudentPlanner.BLL.Models.AssignmentExam>
+@{
     ViewData["Title"] = "Home";
 }
 @* ----------------------------Assignments--------------------------------------- *@
@@ -14,45 +15,45 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Course</th>
-                    <th>Assignment</th>
+                    <th>Task</th>
                     <th>Due Date</th>
                     <th>Reminder</th>
                     <th>Done</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="align-middle">
-                    <td>1.</td>
-                    <td>Update software</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
-                <tr class="align-middle">
-                    <td>2.</td>
-                    <td>Clean database</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-warning">70%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
-                <tr class="align-middle">
-                    <td>3.</td>
-                    <td>Cron job running</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-primary">30%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
-                <tr class="align-middle">
-                    <td>4.</td>
-                    <td>Fix and squish bugs</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-success">90%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
+                @{
+                    int count = 0;
+                }
+                @if(Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-danger text-center fw-bold">No Assignments!</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var Item in Model)
+                    {
+                        count++;
+                        <tr class="align-middle">
+                            <td>@count</td>
+                            <td>Item.assign.Course</td>
+                            <td>@Item.assign.Title</td>
+                            <td>@Item.assign.DueDate</td>
+                            <td>3 days before</td>
+                            @if (@Item.assign.IsDone)
+                            {
+                                <i class="bi bi-check2-circle"></i>
+                                <td>Completed</td>
+                            } else
+                            {
+                                <i class="bi bi-hourglass-split"></i>
+                                <td>Pending</td>
+                            }
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>
@@ -72,45 +73,45 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Course</th>
-                    <th>Exam</th>
                     <th>Due Date</th>
                     <th>Reminder</th>
                     <th>Done</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="align-middle">
-                    <td>1.</td>
-                    <td>Update software</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
-                <tr class="align-middle">
-                    <td>2.</td>
-                    <td>Clean database</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-warning">70%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
-                <tr class="align-middle">
-                    <td>3.</td>
-                    <td>Cron job running</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-primary">30%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
-                <tr class="align-middle">
-                    <td>4.</td>
-                    <td>Fix and squish bugs</td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-success">90%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                    <td><span class="badge text-bg-danger">55%</span></td>
-                </tr>
+                @{
+                    int ExamsCount = 0;
+                }
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-danger text-center fw-bold">No Exams!</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var Item in Model)
+                    {
+                        ExamsCount++;
+                        <tr class="align-middle">
+                            <td>@ExamsCount</td>
+                            <td>Item.exam.Course</td>
+                            <td>@Item.exam.Date</td>
+                            <td>@Item.assign.DueDate</td>
+                            <td>3 days before</td>
+                            @if (@Item.assign.IsDone)
+                            {
+                                <i class="bi bi-check2-circle"></i>
+                                <td>Completed</td>
+                            }
+                            else
+                            {
+                                <i class="bi bi-hourglass-split"></i>
+                                <td>Pending</td>
+                            }
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>
