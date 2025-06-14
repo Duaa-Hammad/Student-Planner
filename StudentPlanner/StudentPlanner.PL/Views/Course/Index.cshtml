@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Courses";
 }
-
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -29,7 +28,6 @@
             <h3 class="card-title fw-bold">All Your Courses</h3>
         </div>
         <!-- /.card-header -->
-
         @*Start Modal for adding reminders *@
 
         @* The modal is the container that will show the form inline (instead of redirecting to another page). *@
@@ -75,6 +73,7 @@
                     else
                     
                         foreach (var Item in Model)
+
                         {
                             count++;
                             <tr class="align-middle">
@@ -103,7 +102,6 @@
 <!-- /.card -->
 </div>
 
-
 @section Scripts {
     <script>
         function openReminderModal(courseId) {
@@ -125,4 +123,3 @@
         }
     </script>
 }
-

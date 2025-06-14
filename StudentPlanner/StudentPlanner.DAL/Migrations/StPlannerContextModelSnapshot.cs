@@ -199,8 +199,13 @@ namespace StudentPlanner.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
                     b.Property<DateTime>("LectureTime")
                         .HasColumnType("datetime2");
+=======
+                    b.Property<int>("Hours")
+                        .HasColumnType("int");
+>>>>>>> 114a8fa (Created Registration Post Action)
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -321,8 +326,12 @@ namespace StudentPlanner.DAL.Migrations
 
                     b.HasKey("Id");
 
+<<<<<<< HEAD
                     b.HasIndex("IdentityUserId")
                         .IsUnique();
+=======
+                    b.HasIndex("IdentityUserId");
+>>>>>>> 114a8fa (Created Registration Post Action)
 
                     b.ToTable("Students");
                 });
@@ -533,6 +542,17 @@ namespace StudentPlanner.DAL.Migrations
                     b.HasOne("StudentPlanner.DAL.Extends.ApplicationUser", "IdentityUser")
                         .WithOne("Student")
                         .HasForeignKey("StudentPlanner.DAL.Entities.Student", "IdentityUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("StudentPlanner.DAL.Entities.Student", b =>
+                {
+                    b.HasOne("StudentPlanner.DAL.Extends.ApplicationUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

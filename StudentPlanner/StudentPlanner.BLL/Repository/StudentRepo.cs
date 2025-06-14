@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentPlanner.BLL.Interfaces;
+=======
+﻿using StudentPlanner.BLL.Interfaces;
+>>>>>>> 114a8fa (Created Registration Post Action)
 using StudentPlanner.BLL.Models;
 using StudentPlanner.DAL.Database;
 using StudentPlanner.DAL.Entities;
@@ -24,11 +28,14 @@ namespace StudentPlanner.BLL.Repository
             data.Students.Add(student);
             await data.SaveChangesAsync();
         }
+<<<<<<< HEAD
         public async Task<Student> GetStudentByIdentityUserId(string Id)
         {
             var student = await data.Students.FirstOrDefaultAsync(s => s.IdentityUserId == Id);
             return student;
         }
 
+=======
+>>>>>>> 114a8fa (Created Registration Post Action)
     }
 }

@@ -23,6 +23,7 @@ namespace StudentPlanner.PL.Controllers
         private readonly IStudent data;
         private readonly IEmail email;
         public AccountController(UserManager<ApplicationUser> userManager, IMapper mapper, IStudent data, SignInManager<ApplicationUser> signInManager, IEmail email)
+
         {
             this.userManager = userManager;
             this.mapper = mapper;
@@ -72,7 +73,6 @@ namespace StudentPlanner.PL.Controllers
                 return View(userLogin);
             }
         }
-
         public IActionResult Registration()
         {
             return View();

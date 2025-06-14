@@ -31,7 +31,9 @@ builder.Services.AddAutoMapper(typeof(DomainProfile));
 //Registering the Course Repository in Dependency Injection
 //Object Lifetime - Scoped > one object for each user deals with all operations
 builder.Services.AddScoped<ICourse, CourseRepo>();
+builder.Services.AddScoped<IStudent, StudentRepo>();
 //----------------------------------------------------------
+//Mapping
 builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
 >>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
 //----------------------------------------------------------

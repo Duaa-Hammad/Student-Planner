@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using StudentPlanner.BLL.Models;
 using StudentPlanner.DAL.Entities;
-<<<<<<< HEAD
 using StudentPlanner.DAL.Extends;
-=======
->>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +16,7 @@ namespace StudentPlanner.BLL.Mapper
         {
             // Add your mappings here
             // CreateMap<SourceEntity, DestinationEntity>();
-<<<<<<< HEAD
+
             CreateMap<CourseVM, Course>();
             CreateMap<Course, CourseVM>();
 
@@ -36,10 +33,11 @@ namespace StudentPlanner.BLL.Mapper
                 .ForMember(dest => dest.IdentityUser, opt => opt.Ignore());
             CreateMap<Student, StudentVM>()
                 .ForMember(dest => dest.IdentityUserId, opt => opt.Ignore());
-=======
-             CreateMap<CourseVM, Course>();
-            CreateMap<Course, CourseVM>();
->>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
+
+
+            //When filling ApplicationUser.UserName, use the Email from RegistrationVM.
+            CreateMap<RegistrationVM, ApplicationUser>().
+            ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
         }
     }
 }

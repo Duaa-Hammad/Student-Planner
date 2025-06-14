@@ -16,5 +16,6 @@ namespace StudentPlanner.BLL.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
+
     }
 }

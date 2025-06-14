@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 ﻿@model IEnumerable<StudentPlanner.BLL.Models.ReminderVM>
 @using StudentPlanner.BLL.Models;
 @using StudentPlanner.BLL.TimeHelper;
 
+=======
+﻿@model IEnumerable<StudentPlanner.BLL.Models.AssignmentExam>
+>>>>>>> 114a8fa (Created Registration Post Action)
 @{
     ViewData["Title"] = "Home";
 
@@ -22,9 +26,16 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Course</th>
+<<<<<<< HEAD
                     <th>Deadline</th>
                     <th>Reminder Date</th>
                     <th>Status</th>
+=======
+                    <th>Task</th>
+                    <th>Due Date</th>
+                    <th>Reminder</th>
+                    <th>Done</th>
+>>>>>>> 114a8fa (Created Registration Post Action)
                 </tr>
             </thead>
             <tbody>
@@ -34,11 +45,16 @@
                 @if(Model == null || !Model.Any())
                 {
                     <tr>
+<<<<<<< HEAD
                         <td colspan="7" class="text-danger text-center fw-bold">No Assignments!</td>
+=======
+                        <td colspan="6" class="text-danger text-center fw-bold">No Assignments!</td>
+>>>>>>> 114a8fa (Created Registration Post Action)
                     </tr>
                 }
                 else
                 {
+<<<<<<< HEAD
                     foreach (var Item in assignments)
                     {
                         count++;
@@ -62,6 +78,26 @@
                                     <span class="badge bg-warning">Pending</span>
                                 }
                             </td>
+=======
+                    foreach (var Item in Model)
+                    {
+                        count++;
+                        <tr class="align-middle">
+                            <td>@count</td>
+                            <td>Item.assign.Course</td>
+                            <td>@Item.assign.Title</td>
+                            <td>@Item.assign.DueDate</td>
+                            <td>3 days before</td>
+                            @if (@Item.assign.IsDone)
+                            {
+                                <i class="bi bi-check2-circle"></i>
+                                <td>Completed</td>
+                            } else
+                            {
+                                <i class="bi bi-hourglass-split"></i>
+                                <td>Pending</td>
+                            }
+>>>>>>> 114a8fa (Created Registration Post Action)
                         </tr>
                     }
                 }
@@ -84,6 +120,7 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Course</th>
+<<<<<<< HEAD
                     <th>Deadline</th>
                     <th>Reminder Date</th>
                     <th>Status</th>
@@ -95,10 +132,26 @@
                 {
                     <tr>
                         <td colspan="7" class="text-danger text-center fw-bold">No Assignments!</td>
+=======
+                    <th>Due Date</th>
+                    <th>Reminder</th>
+                    <th>Done</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int ExamsCount = 0;
+                }
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-danger text-center fw-bold">No Exams!</td>
+>>>>>>> 114a8fa (Created Registration Post Action)
                     </tr>
                 }
                 else
                 {
+<<<<<<< HEAD
                     count = 0;
                     foreach (var Item in exams)
                     {
@@ -123,6 +176,27 @@
                                     <span class="badge bg-warning">Pending</span>
                                 }
                             </td>
+=======
+                    foreach (var Item in Model)
+                    {
+                        ExamsCount++;
+                        <tr class="align-middle">
+                            <td>@ExamsCount</td>
+                            <td>Item.exam.Course</td>
+                            <td>@Item.exam.Date</td>
+                            <td>@Item.assign.DueDate</td>
+                            <td>3 days before</td>
+                            @if (@Item.assign.IsDone)
+                            {
+                                <i class="bi bi-check2-circle"></i>
+                                <td>Completed</td>
+                            }
+                            else
+                            {
+                                <i class="bi bi-hourglass-split"></i>
+                                <td>Pending</td>
+                            }
+>>>>>>> 114a8fa (Created Registration Post Action)
                         </tr>
                     }
                 }

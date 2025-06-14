@@ -17,24 +17,18 @@ namespace StudentPlanner.BLL.Repository
         {
             this.data = data;
         }
-<<<<<<< HEAD
         public async Task<IEnumerable<Course>> GetStudentCoursesAsync(int Id)
         {
             return await data.Courses.Include("Student").Include("Reminders").Where(a => a.StudentId == Id).ToListAsync();
         }
-        public async Task<Course> GetCourseByIdAsync(int Id)
-        {
-            //return await data.Courses.FindAsync(id);
-            return await data.Courses.Where(a => a.Id == Id).FirstOrDefaultAsync();
-=======
-        public async Task<List<Course>> GetAllCoursesAsync()
+
+        public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
             return await data.Courses.ToListAsync();
         }
-        public async Task<Course> GetCourseByIdAsync(int id)
+        public async Task<Course> GetCourseByIdAsync(int Id)
         {
-            return await data.Courses.FindAsync(id);
->>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
+            return await data.Courses.Where(a => a.Id == Id).FirstOrDefaultAsync();
         }
         public async Task AddCourseAsync(Course course)
         {
@@ -46,16 +40,10 @@ namespace StudentPlanner.BLL.Repository
             data.Courses.Update(course);
             await data.SaveChangesAsync();
         }
-<<<<<<< HEAD
         public async Task DeleteCourseAsync(int Id)
         {
             var course = await GetCourseByIdAsync(Id);
             
-=======
-        public async Task DeleteCourseAsync(int id)
-        {
-            var course = await GetCourseByIdAsync(id);
->>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
             if (course != null)
             {
                 data.Courses.Remove(course);

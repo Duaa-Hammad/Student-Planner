@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
 using StudentPlanner.BLL.Interfaces;
 using AutoMapper;
 using StudentPlanner.BLL.Models;
@@ -8,17 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using StudentPlanner.DAL.Extends;
-=======
-using StudentPlanner.BLL.Repository;
-using StudentPlanner.BLL.Interfaces;
->>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
+
 
 namespace StudentPlanner.PL.Controllers
 {
     [Authorize]
     public class CourseController : Controller
     {
-<<<<<<< HEAD
         #region DI
         private readonly ICourse data;
         private readonly IMapper mapper;
@@ -28,15 +23,6 @@ namespace StudentPlanner.PL.Controllers
         private readonly IExam examData;
         private readonly UserManager<ApplicationUser> userManager;
         public CourseController(ICourse data, IMapper mapper, IStudent studentData, UserManager<ApplicationUser> userManager, IReminder reminderData, IAssignment assignmentData, IExam examData)
-=======
-        //Dependency Injection for Course Repository
-        private readonly ICourse data;
-        public CourseController(ICourse data)
-        {
-            this.data = data;
-        }
-        public IActionResult Index()
->>>>>>> 75dd13d (Created Mapper and Ojbect Lifetime)
         {
             this.data = data;
             this.mapper = mapper;
