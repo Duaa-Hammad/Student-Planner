@@ -10,5 +10,6 @@ namespace StudentPlanner.BLL.Interfaces
     public interface IStudent
     {
         public Task CreateStudentAsync(Student student);
+        public Task<Student> GetStudentByIdentityUserId(string id);
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentPlanner.BLL.Models.AssignmentExam>
+﻿@model IEnumerable<StudentPlanner.BLL.Models.AssignmentVM>
 @{
     ViewData["Title"] = "Home";
 }
@@ -38,11 +38,11 @@
                         count++;
                         <tr class="align-middle">
                             <td>@count</td>
-                            <td>Item.assign.Course</td>
-                            <td>@Item.assign.Title</td>
-                            <td>@Item.assign.DueDate</td>
+                            <td>Item.Course</td>
+                            <td>@Item.Title</td>
+                            <td>@Item.DueDate</td>
                             <td>3 days before</td>
-                            @if (@Item.assign.IsDone)
+                            @if (@Item.IsDone)
                             {
                                 <i class="bi bi-check2-circle"></i>
                                 <td>Completed</td>
@@ -95,11 +95,11 @@
                         ExamsCount++;
                         <tr class="align-middle">
                             <td>@ExamsCount</td>
-                            <td>Item.exam.Course</td>
-                            <td>@Item.exam.Date</td>
-                            <td>@Item.assign.DueDate</td>
+                            <td>Item.Course</td>
+                            @* <td>@Item.Date</td> *@
+                            <td>@Item.DueDate</td>
                             <td>3 days before</td>
-                            @if (@Item.assign.IsDone)
+                            @if (@Item.IsDone)
                             {
                                 <i class="bi bi-check2-circle"></i>
                                 <td>Completed</td>

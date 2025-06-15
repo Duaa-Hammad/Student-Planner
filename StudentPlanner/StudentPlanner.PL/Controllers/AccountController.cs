@@ -13,19 +13,56 @@ namespace StudentPlanner.PL.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IMapper mapper;
         //Dependency Injection for Course Repository
         private readonly IStudent data;
-        public AccountController (UserManager<ApplicationUser> userManager, IMapper mapper, IStudent data)
+        public AccountController (UserManager<ApplicationUser> userManager, IMapper mapper, IStudent data, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.mapper = mapper;
             this.data = data;
+            this.signInManager = signInManager;
         }
         public IActionResult Login()
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM userLogin)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(userLogin);
+                }
+
+                var user = await userManager.FindByEmailAsync(userLogin.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Email Not Found!");
+                    return View(userLogin);
+                }
+
+                var result = await signInManager.PasswordSignInAsync(user, userLogin.Password, userLogin.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "Incorrect Password!");
+                return View(userLogin);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "An Error has Occured!");
+                return View(userLogin);
+            }
+        }
+
         public IActionResult Registration()
         {
             return View();
@@ -73,7 +110,11 @@ namespace StudentPlanner.PL.Controllers
             }
         }
 
-
+        public async Task<IActionResult> LogOut()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
         public IActionResult ForgotPassword()
         {
             return View();

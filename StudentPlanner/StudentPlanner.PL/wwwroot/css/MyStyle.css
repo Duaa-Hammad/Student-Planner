@@ -1,0 +1,9 @@
+﻿.card-header h2 {
+/*    color: #1a355b;*/
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none !important;
+/*    color: #1a355b;*/
+}
