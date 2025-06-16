@@ -9,10 +9,10 @@ namespace StudentPlanner.BLL.Interfaces
 {
     public interface ICourse
     {
-        public Task<IEnumerable<Course>> GetAllCoursesAsync();
-        public Task<Course> GetCourseByIdAsync(int id);
+        public Task<IEnumerable<Course>> GetStudentCoursesAsync(int Id);
+        public Task<Course> GetCourseByIdAsync(int Id);
         public Task AddCourseAsync(Course course);
         public Task UpdateCourseAsync(Course course);
-        public Task DeleteCourseAsync(int id);
+        public Task DeleteCourseAsync(int Id);
     }
 }

@@ -21,6 +21,7 @@
                         <th>Course Name</th>
                         <th>Course Code</th>
                         <th>Hours</th>
+                        <th>Add Reminder</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,11 +44,12 @@
                                 <td>@courseItem.Name</td>
                                 <td>@courseItem.Code</td>
                                 <td>@courseItem.Hours</td>
+                                <td>
+                                    <a asp-action="Create" asp-controller="Reminder" asp-route-courseId="@courseItem.Id" class="btn btn-primary btn-sm">Add Reminder</a>
+                                </td>
                             </tr>
                         }
-                    }
-
-            
+                    }          
             </tbody>
         </table>
     </div>

@@ -169,8 +169,14 @@
                                 }
                                 else
                                 {
-                                    <p class="mb-0 fw-normal fs-5">@student.Name</p>
-                                    <small class="text-light">Member since @student.CreatedAt</small>
+                                  <p class="mb-0 fw-normal fs-5">@student.Name</p>
+
+                                    var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Libya Standard Time"); // Libya
+                                    var localTime = TimeZoneInfo.ConvertTimeFromUtc(student.CreatedAt, timeZone);
+
+                                    <small class="text-light">Member since @localTime.ToString("f")</small> <!-- يعرض الوقت والتاريخ بصيغة كاملة -->
+
+                                    @* <small class="text-light">Member since @student.CreatedAt</small> *@ <!--shows the univseral time-->
                                 }
                             </li>
                             <!--end::User Image-->

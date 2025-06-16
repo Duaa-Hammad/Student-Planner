@@ -17,9 +17,9 @@ namespace StudentPlanner.BLL.Repository
         {
             this.data = data;
         }
-        public async Task<IEnumerable<Course>> GetAllCoursesAsync()
+        public async Task<IEnumerable<Course>> GetStudentCoursesAsync(int Id)
         {
-            return await data.Courses.ToListAsync();
+            return await data.Courses.Where(a => a.StudentId == Id).ToListAsync();
         }
         public async Task<Course> GetCourseByIdAsync(int Id)
         {
@@ -36,9 +36,9 @@ namespace StudentPlanner.BLL.Repository
             data.Courses.Update(course);
             await data.SaveChangesAsync();
         }
-        public async Task DeleteCourseAsync(int id)
+        public async Task DeleteCourseAsync(int Id)
         {
-            var course = await GetCourseByIdAsync(id);
+            var course = await GetCourseByIdAsync(Id);
             if (course != null)
             {
                 data.Courses.Remove(course);
