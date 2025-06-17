@@ -137,7 +137,7 @@
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="~/assets/Users/DefaultUserImage.jpg"
+                            <img src="~/assets/Users/green.jpg"
                             class="user-image rounded-circle"
                             alt="User Image" />
                             @{
@@ -156,8 +156,8 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
-                            <li class="user-header" style="background-color: #2C3E50; color: #ffffff;">
-                                <img src="~/assets/Users/DefaultUserImage.jpg"
+                            <li class="user-header">
+                                <img src="~/assets/Users/green.jpg"
                                      class="rounded-circle shadow mb-2"
                                      alt="User Image"
                                      style="width: 100px; height: 100px; object-fit: cover;" />
@@ -175,7 +175,7 @@
                                     var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Libya Standard Time"); // Libya
                                     var localTime = TimeZoneInfo.ConvertTimeFromUtc(student.CreatedAt, timeZone);
 
-                                    <small class="text-light">Member since @localTime.ToString("f")</small> <!-- يعرض الوقت والتاريخ بصيغة كاملة -->
+                                    <small class="text-dark">Member since @localTime.ToString("f")</small> <!-- يعرض الوقت والتاريخ بصيغة كاملة -->
 
                                     @* <small class="text-light">Member since @student.CreatedAt</small> *@ <!--shows the univseral time-->
                                 }
