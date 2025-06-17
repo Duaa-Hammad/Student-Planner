@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentPlanner.DAL.Database;
 
@@ -11,9 +12,10 @@ using StudentPlanner.DAL.Database;
 namespace StudentPlanner.DAL.Migrations
 {
     [DbContext(typeof(StPlannerContext))]
-    partial class StPlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20250616200226_ReminderThirdUpdate")]
+    partial class ReminderThirdUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,9 +177,6 @@ namespace StudentPlanner.DAL.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -185,8 +184,6 @@ namespace StudentPlanner.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Assignments");
                 });
@@ -237,14 +234,9 @@ namespace StudentPlanner.DAL.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Exams");
                 });
@@ -275,11 +267,8 @@ namespace StudentPlanner.DAL.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReminderDate")
+                    b.Property<DateTime>("ReminderTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -291,8 +280,6 @@ namespace StudentPlanner.DAL.Migrations
                     b.HasIndex("CourseId");
 
                     b.HasIndex("ExamId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Reminders");
                 });
@@ -457,15 +444,7 @@ namespace StudentPlanner.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("StudentPlanner.DAL.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentPlanner.DAL.Entities.Course", b =>
@@ -487,15 +466,7 @@ namespace StudentPlanner.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("StudentPlanner.DAL.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentPlanner.DAL.Entities.Reminder", b =>
@@ -515,19 +486,11 @@ namespace StudentPlanner.DAL.Migrations
                         .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("StudentPlanner.DAL.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Assignment");
 
                     b.Navigation("Course");
 
                     b.Navigation("Exam");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentPlanner.DAL.Entities.Student", b =>

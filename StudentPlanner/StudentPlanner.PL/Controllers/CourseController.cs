@@ -18,15 +18,15 @@ namespace StudentPlanner.PL.Controllers
         //AutoMapping
         private readonly IMapper mapper;
         private readonly IStudent studentData;
+        private readonly IReminder reminderData;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
-        public CourseController(ICourse data, IMapper mapper, IStudent studentData, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public CourseController(ICourse data, IMapper mapper, IStudent studentData, UserManager<ApplicationUser> userManager, IReminder reminderData)
         {
             this.data = data;
             this.mapper = mapper;
             this.studentData = studentData;
-            this.signInManager = signInManager;
             this.userManager = userManager;
+            this.reminderData = reminderData;
         }
         public async Task<IActionResult> Index()
         {
@@ -41,7 +41,19 @@ namespace StudentPlanner.PL.Controllers
                 var student = await studentData.GetStudentByIdentityUserId(userId);
                 var courses = await data.GetStudentCoursesAsync(student.Id);
                 var stCourses = mapper.Map<IEnumerable<CourseVM>>(courses);
-                return View(stCourses);
+
+                var userReminders = await reminderData.GetRemindersByUserId(student.Id);
+
+                var remindersVM = mapper.Map<List<ReminderVM>>(userReminders);
+
+                // بناء قائمة الكورسات مع التذكيرات المرتبطة بها
+                var result = stCourses.Select(course => new CourseWithRemindersVM
+                {
+                    Course = course,
+                    Reminders = remindersVM.Where(r => r.CourseId == course.Id).ToList()
+                }).ToList();
+
+                return View(result);
             }
         }
         public IActionResult Create()

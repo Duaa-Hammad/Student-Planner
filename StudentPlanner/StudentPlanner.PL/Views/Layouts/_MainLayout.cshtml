@@ -42,6 +42,7 @@
     href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
     integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
     crossorigin="anonymous" />
+    @RenderSection("CustomFiles", required: false)
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -342,6 +343,7 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <script src="~/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)-->
+
     <!--begin::OverlayScrollbars Configure-->
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
@@ -560,6 +562,14 @@
         const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
         sparkline3.render();
     </script>
+    <!--end::Scripts-->
+    @RenderSection("Scripts", required: false)
+
+    @*Start Validation *@
+    <script src="~/jquery/jquery.min.js"></script>
+    <script src="~/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @*End Validation *@
 
 </body>
 </html>

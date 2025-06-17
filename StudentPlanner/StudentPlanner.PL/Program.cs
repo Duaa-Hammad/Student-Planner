@@ -15,6 +15,9 @@ builder.Services.AddControllersWithViews();
 //Object Lifetime - Scoped > one object for each user deals with all operations
 builder.Services.AddScoped<ICourse, CourseRepo>();
 builder.Services.AddScoped<IStudent, StudentRepo>();
+builder.Services.AddScoped<IReminder, ReminderRepo>();
+builder.Services.AddScoped<IAssignment, AssignmentRepo>();
+builder.Services.AddScoped<IExam, ExamRepo>();
 //----------------------------------------------------------
 //Mapping
 builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
@@ -69,6 +72,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Course}/{action=Index}/{id?}");
 
 app.Run();

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace StudentPlanner.BLL.Models
 {
-    public class AssignmentExam
+    public class CourseWithRemindersVM
     {
-        public AssignmentVM assign { get; set; }
-        public ExamVM exam { get; set; }
+        public CourseVM Course { get; set; }
+        public List<ReminderVM> Reminders { get; set; }
     }
 }

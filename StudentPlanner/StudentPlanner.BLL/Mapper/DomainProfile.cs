@@ -16,12 +16,15 @@ namespace StudentPlanner.BLL.Mapper
         {
             // Add your mappings here
             // CreateMap<SourceEntity, DestinationEntity>();
-             CreateMap<CourseVM, Course>();
+            CreateMap<CourseVM, Course>();
             CreateMap<Course, CourseVM>();
 
             //When filling ApplicationUser.UserName, use the Email from RegistrationVM.
             CreateMap<RegistrationVM, ApplicationUser>().
             ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+
+            CreateMap<ReminderVM, Reminder>();
+            CreateMap<Reminder, ReminderVM>();
         }
     }
 }

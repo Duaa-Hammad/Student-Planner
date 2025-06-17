@@ -1,0 +1,97 @@
+﻿@model IEnumerable<StudentPlanner.BLL.Models.ReminderVM>;
+@using StudentPlanner.BLL.Models
+@{
+    ViewData["Title"] = "Reminders";
+}
+<h2>View All Reminders</h2>
+
+@* ----------------------------Courses--------------------------------------- *@
+<!-- /.card -->
+<div class="col-md-10">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title fw-bold">All Your Reminders</h3>
+        </div>
+        <!-- /.card-header -->
+
+       
+
+        <div class="card-body p-0">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Course Name</th>
+                        <th>Course Code</th>
+                        <th>Hours</th>
+                        <th>Add Reminder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int count = 0;
+                    }
+                    @if (!Model.Any())
+                    {
+                           <tr>
+                            <td colspan="5" class="text-danger text-center fw-bold">No Reminders!</td>
+                           </tr> 
+                    }
+                    else
+                    {
+                        foreach (var Item in Model)
+                        {
+                            count++;
+                                    <tr class="align-middle">
+                                        <td>@count</td>
+                                        <td>@Item.Course</td>
+                                        <td>@Item.Deadline</td>
+                                        <td>@Item.ReminderDate</td>
+                                        <td>@Item.Note</td>
+                                @if (Item.Type == ReminderType.Assignment)
+                                {
+                                    <td class="text-success fw-bold">Assignment</td>
+                                }
+                                else if (Item.Type == ReminderType.Exam)
+                                {
+                                    <td class="text-danger fw-bold">Exam</td>
+                                }
+                                else
+                                {
+                                    <td class="text-warning fw-bold">Other</td>
+                                }
+                                </tr>
+                        }
+                    }          
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+</div>
+
+
+@section Scripts {
+        <script>
+            function openReminderModal(courseId) {
+                const modalBody = document.getElementById("reminderModalBody");
+                modalBody.innerHTML = "<div class='text-center text-muted'>Loading...</div>";
+
+                const modal = new bootstrap.Modal(document.getElementById('reminderModal'));
+                modal.show();
+
+                fetch(`/Reminder/Create?courseId=${courseId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        modalBody.innerHTML = html;
+                    })
+                    .catch(error => {
+                        modalBody.innerHTML = "<div class='text-danger'>Error loading form</div>";
+                        console.error(error);
+                    });
+            }
+        </script>
+}
+

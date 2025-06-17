@@ -13,10 +13,13 @@ namespace StudentPlanner.DAL.Entities
         public int CourseId { get; set; } //FK
         [Required]
         public DateTime Date { get; set; }
+        public string? Note { get; set; }
+        public int StudentId { get; set; } //FK to Student
         //----------------------------
         // Navigation properties
         //----------------------------
         public virtual Course Course { get; set; } // Navigation property to Course
-        public virtual List<Reminder> Reminders { get; set; } // Navigation property to Reminders
+        public virtual List<Reminder>? Reminders { get; set; } // Navigation property to Reminders
+        public virtual Student Student { get; set; } // Navigation property to Student
     }
 }

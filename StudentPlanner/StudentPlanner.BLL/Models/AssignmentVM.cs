@@ -13,7 +13,7 @@ namespace StudentPlanner.BLL.Models
         public int CourseId { get; set; } //FK
         [Required]
         public string Title { get; set; } //Like "Doing a Research"
-        public string? Description { get; set; }
+        public string? Note { get; set; }
         [Required]
         public DateTime DueDate { get; set; }
         public bool IsDone { get; set; }

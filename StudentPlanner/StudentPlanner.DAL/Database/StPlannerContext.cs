@@ -26,20 +26,47 @@ namespace StudentPlanner.DAL.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            // Assignment - Reminder (one-to-many, optional)
+            // Course -> Assignments (Restrict to avoid cascade path)
+            modelBuilder.Entity<Assignment>()
+                .HasOne(a => a.Course)
+                .WithMany(c => c.Assignments)
+                .HasForeignKey(a => a.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Course -> Exams (Restrict to avoid cascade path)
+            modelBuilder.Entity<Exam>()
+                .HasOne(e => e.Course)
+                .WithMany(c => c.Exams)
+                .HasForeignKey(e => e.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Course -> Reminders (Restrict)
+            modelBuilder.Entity<Reminder>()
+                .HasOne(r => r.Course)
+                .WithMany(c => c.Reminders)
+                .HasForeignKey(r => r.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Student -> Courses (cascade delete is OK)
+            modelBuilder.Entity<Course>()
+                .HasOne(r => r.Student)
+                .WithMany(u => u.Courses)
+                .HasForeignKey(r => r.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Assignment -> Reminders (SetNull)
             modelBuilder.Entity<Reminder>()
                 .HasOne(r => r.Assignment)
                 .WithMany(a => a.Reminders)
                 .HasForeignKey(r => r.AssignmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Exam - Reminder (one-to-many, optional)
+            // Exam -> Reminders (SetNull)
             modelBuilder.Entity<Reminder>()
                 .HasOne(r => r.Exam)
                 .WithMany(e => e.Reminders)
                 .HasForeignKey(r => r.ExamId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
-
     }
 }
