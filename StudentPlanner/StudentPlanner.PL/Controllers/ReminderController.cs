@@ -9,6 +9,7 @@ using StudentPlanner.DAL.Extends;
 using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
 using System.Security.Policy;
 using System;
+using StudentPlanner.BLL.Repository;
 
 namespace StudentPlanner.PL.Controllers
 {
@@ -20,7 +21,9 @@ namespace StudentPlanner.PL.Controllers
         private readonly IExam examData;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
-        public ReminderController(IReminder reminderData, IMapper mapper, UserManager<ApplicationUser> userManager, IStudent studentData, IAssignment assignmentData, IExam examData)
+        //------------------------------------------------------------------
+        private readonly IEmail email;
+        public ReminderController(IReminder reminderData, IMapper mapper, UserManager<ApplicationUser> userManager, IStudent studentData, IAssignment assignmentData, IExam examData, IEmail email)
         {
             this.reminderData = reminderData;
             this.studentData = studentData;
@@ -28,6 +31,7 @@ namespace StudentPlanner.PL.Controllers
             this.mapper = mapper;
             this.assignmentData = assignmentData;
             this.examData = examData;
+            this.email = email;
         }
         public IActionResult Create(int courseId)
         {
@@ -107,7 +111,28 @@ namespace StudentPlanner.PL.Controllers
 
             return RedirectToAction("Index", "Course", new { id = model.CourseId });
         }
+        //------------------------------------------------------------------------------------
+            [HttpGet]
+            public async Task<IActionResult> TestEmail()
+            {
+                string studentName = "Duaa";
+                string type = "assignment";
+                int daysLeft = 3;
 
+                string timeFrame = daysLeft switch
+                {
+                    1 => "tomorrow",
+                    3 => "in 3 days",
+                    7 => "in a week",
+                    30 => "in a month",
+                    _ => $"in {daysLeft} days"
+                };
 
+                string message = $"Hey {studentName}, you have a {type} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
+
+                await email.SendEmailAsync("itstd.5450@uob.edu.ly", "Reminder Test", message);
+
+                return Content("Email Sent Successfully!");
+            }
     }
 }

@@ -18,6 +18,7 @@ builder.Services.AddScoped<IStudent, StudentRepo>();
 builder.Services.AddScoped<IReminder, ReminderRepo>();
 builder.Services.AddScoped<IAssignment, AssignmentRepo>();
 builder.Services.AddScoped<IExam, ExamRepo>();
+builder.Services.AddScoped<IEmail, EmailRepo>();
 //----------------------------------------------------------
 //Mapping
 builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
