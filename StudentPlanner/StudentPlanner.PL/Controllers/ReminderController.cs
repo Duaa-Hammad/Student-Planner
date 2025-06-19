@@ -115,11 +115,18 @@ namespace StudentPlanner.PL.Controllers
             [HttpGet]
             public async Task<IActionResult> TestEmail()
             {
-                string studentName = "Duaa";
-                string type = "assignment";
-                int daysLeft = 3;
+            var userId = userManager.GetUserId(User);
+            if (userId== null)
+            {
+                return Unauthorized();
+            }
+            var st = await studentData.GetStudentByIdentityUserId(userId);
+            string studentName = st.Name;
+            string type = "assignment";
+            int daysLeft = 3;
+            string userEmail = st.Email;
 
-                string timeFrame = daysLeft switch
+            string timeFrame = daysLeft switch
                 {
                     1 => "tomorrow",
                     3 => "in 3 days",
@@ -130,9 +137,13 @@ namespace StudentPlanner.PL.Controllers
 
                 string message = $"Hey {studentName}, you have a {type} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
 
-                await email.SendEmailAsync("itstd.5450@uob.edu.ly", "Reminder Test", message);
+                await email.SendEmailAsync(userEmail, "Reminder", message);
 
-                return Content("Email Sent Successfully!");
-            }
+            //return Content("Email Sent Successfully!");
+
+
+            TempData["SuccessMessage"] = "Email Sent Successfully!";
+            return RedirectToAction("Index","Course");
+        }
     }
 }
