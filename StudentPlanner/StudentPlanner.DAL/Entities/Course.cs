@@ -14,15 +14,14 @@ namespace StudentPlanner.DAL.Entities
         [Required]
         public string Name { get; set; }
         public string Code { get; set; }
-        [Required]
         public int Hours { get; set; }
 
         //----------------------------
         // Navigation properties
         //----------------------------
         public virtual Student Student { get; set; } // Navigation property to Student
-        public virtual List<Assignment> Assignments { get; set; } // Navigation property to Assignments
-        public virtual List<Exam> Exams { get; set; } // Navigation property to Exams
-        public virtual List<Reminder> Reminders { get; set; }
+        public virtual List<Assignment>? Assignments { get; set; } // Navigation property to Assignments
+        public virtual List<Exam>? Exams { get; set; } // Navigation property to Exams
+        public virtual List<Reminder>? Reminders { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using StudentPlanner.BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentPlanner.BLL.Interfaces;
 using StudentPlanner.DAL.Database;
 using StudentPlanner.DAL.Entities;
 using System;
@@ -20,6 +21,21 @@ namespace StudentPlanner.BLL.Repository
         {
             await data.Exams.AddAsync(model);
             await data.SaveChangesAsync();
+        }
+        public async Task<Exam> FindExamByCourseId(int Id)
+        {
+            var exam = await data.Exams.Where(e => e.CourseId == Id).FirstOrDefaultAsync();
+            return exam;
+        }
+        public async Task DeleteExamByCourseId(int Id)
+        {
+            var exmas = await data.Exams.Where(r => r.CourseId == Id).ToListAsync();
+
+            if (exmas.Any())
+            {
+                data.Exams.RemoveRange(exmas);
+                await data.SaveChangesAsync();
+            }
         }
     }
 }

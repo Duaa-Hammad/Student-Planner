@@ -15,13 +15,13 @@ namespace StudentPlanner.BLL.Models
         [Required]
         public string Name { get; set; }
         public string Code { get; set; }
-        [Required]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Course hours must be a valid number.")]
         public int Hours { get; set; }
         //---------------------------------------------
         // Navigation properties
-        public virtual Student Student { get; set; } // Navigation property to Student
-        public virtual List<Assignment> Assignments { get; set; } // Navigation property to Assignments
-        public virtual List<Exam> Exams { get; set; } // Navigation property to Exams
-        public virtual List<Reminder> Reminders { get; set; }
+        public virtual Student? Student { get; set; } // Navigation property to Student
+        public virtual List<Assignment>? Assignments { get; set; } // Navigation property to Assignments
+        public virtual List<Exam>? Exams { get; set; } // Navigation property to Exams
+        public virtual List<Reminder>? Reminders { get; set; }
     }
 }

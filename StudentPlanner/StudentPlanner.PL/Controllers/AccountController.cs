@@ -50,7 +50,7 @@ namespace StudentPlanner.PL.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Course");
                 }
 
                 ModelState.AddModelError("", "Incorrect Password!");

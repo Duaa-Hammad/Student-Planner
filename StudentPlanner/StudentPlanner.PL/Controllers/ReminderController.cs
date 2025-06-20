@@ -33,6 +33,19 @@ namespace StudentPlanner.PL.Controllers
             this.examData = examData;
             this.email = email;
         }
+        public async Task<IActionResult> Index()
+        {
+            var userId = userManager.GetUserId(User);
+            if(userId == null)
+            {
+                return Unauthorized();
+            }
+            var st = await studentData.GetStudentByIdentityUserId(userId);
+            var stReminders = await reminderData.GetRemindersByUserId(st.Id);
+            var stRemindersVM = mapper.Map<IEnumerable<ReminderVM>>(stReminders);
+
+            return View(stRemindersVM);
+        }
         public IActionResult Create(int courseId)
         {
             ViewBag.DepList = new SelectList(Enum.GetValues(typeof(BLL.Models.ReminderType)).Cast<BLL.Models.ReminderType>()
@@ -141,9 +154,24 @@ namespace StudentPlanner.PL.Controllers
 
             //return Content("Email Sent Successfully!");
 
-
             TempData["SuccessMessage"] = "Email Sent Successfully!";
             return RedirectToAction("Index","Course");
+        }
+        //-----------------------------------------------------
+        //Not Mine!
+        public IActionResult Delete(int Id)
+        {
+            var reminder = reminderData.GetRemindersByUserId(Id);
+            if (reminder == null)
+            {
+                return NotFound();
+            }
+            return PartialView("_DeleteReminderPartial", reminder);
+        }
+        //-----------------------------------------------------
+        public IActionResult Manage()
+        {
+            return View();
         }
     }
 }

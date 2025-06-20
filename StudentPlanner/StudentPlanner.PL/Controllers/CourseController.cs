@@ -19,14 +19,18 @@ namespace StudentPlanner.PL.Controllers
         private readonly IMapper mapper;
         private readonly IStudent studentData;
         private readonly IReminder reminderData;
+        private readonly IAssignment assignmentData;
+        private readonly IExam examData;
         private readonly UserManager<ApplicationUser> userManager;
-        public CourseController(ICourse data, IMapper mapper, IStudent studentData, UserManager<ApplicationUser> userManager, IReminder reminderData)
+        public CourseController(ICourse data, IMapper mapper, IStudent studentData, UserManager<ApplicationUser> userManager, IReminder reminderData, IAssignment assignmentData, IExam examData)
         {
             this.data = data;
             this.mapper = mapper;
             this.studentData = studentData;
             this.userManager = userManager;
             this.reminderData = reminderData;
+            this.assignmentData = assignmentData;
+            this.examData = examData;
         }
         public async Task<IActionResult> Index()
         {
@@ -91,10 +95,36 @@ namespace StudentPlanner.PL.Controllers
             await data.AddCourseAsync(newCourse);
             return RedirectToAction("Index");
         }
-
-        public IActionResult Delete()
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
         {
-            return View();
+            await reminderData.DeleteReminderByCourseId(Id);
+            await examData.DeleteExamByCourseId(Id);
+            await assignmentData.DeleteAssignmentByCourseId(Id);
+
+            await data.DeleteCourseAsync(Id);
+
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Manage(int Id)
+        {
+            var courseEntity = await data.GetCourseByIdAsync(Id);
+
+            var courseVM = mapper.Map<CourseVM>(courseEntity);
+            return View(courseVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CourseVM Updatedcourse)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Manage", new { Id = Updatedcourse.Id });
+            }
+
+            var courseEntity = mapper.Map<Course>(Updatedcourse);
+            await data.UpdateCourseAsync(courseEntity);
+            return RedirectToAction("Index");
         }
     }
 }

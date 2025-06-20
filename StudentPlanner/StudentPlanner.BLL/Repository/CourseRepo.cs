@@ -19,7 +19,7 @@ namespace StudentPlanner.BLL.Repository
         }
         public async Task<IEnumerable<Course>> GetStudentCoursesAsync(int Id)
         {
-            return await data.Courses.Where(a => a.StudentId == Id).ToListAsync();
+            return await data.Courses.Include("Student").Include("Reminders").Where(a => a.StudentId == Id).ToListAsync();
         }
         public async Task<Course> GetCourseByIdAsync(int Id)
         {
@@ -39,6 +39,7 @@ namespace StudentPlanner.BLL.Repository
         public async Task DeleteCourseAsync(int Id)
         {
             var course = await GetCourseByIdAsync(Id);
+            
             if (course != null)
             {
                 data.Courses.Remove(course);

@@ -7,7 +7,7 @@
 
 @* ----------------------------Courses--------------------------------------- *@
 <!-- /.card -->
-<div class="col-md-10">
+<div class="col-md-11">
 
     <div class="card mb-4">
         <div class="card-header">
@@ -15,40 +15,38 @@
         </div>
         <!-- /.card-header -->
 
-       
-
-        <div class="card-body p-0">
+        <div class="card-body p-0 table-responsive">
             <table class="table table-striped">
-                <thead>
+                <thead class="text-center">
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Course Name</th>
                         <th>Course Code</th>
-                        <th>Hours</th>
-                        <th>Add Reminder</th>
+                        <th>Reminder Type</th>
+                        <th>Reminder Date</th>
+                        <th>Status</th>
+                        <th>Manage</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     @{
-                        int count = 0;
+                        int count = 1;
                     }
                     @if (!Model.Any())
                     {
                            <tr>
-                            <td colspan="5" class="text-danger text-center fw-bold">No Reminders!</td>
+                            <td colspan="6" class="text-danger text-center fw-bold">No Reminders!</td>
                            </tr> 
                     }
                     else
                     {
                         foreach (var Item in Model)
                         {
-                            count++;
-                                    <tr class="align-middle">
-                                        <td>@count</td>
-                                        <td>@Item.Course</td>
-                                        <td>@Item.Deadline</td>
-                                        <td>@Item.ReminderDate</td>
-                                        <td>@Item.Note</td>
+                            <tr class="align-middle">
+                                <td>@count</td>
+                                <td>@Item.Course.Name</td>
+                                <td>@Item.Course.Code</td>
+
                                 @if (Item.Type == ReminderType.Assignment)
                                 {
                                     <td class="text-success fw-bold">Assignment</td>
@@ -57,11 +55,25 @@
                                 {
                                     <td class="text-danger fw-bold">Exam</td>
                                 }
-                                else
-                                {
-                                    <td class="text-warning fw-bold">Other</td>
-                                }
-                                </tr>
+                                <td>
+                                    @Item.ReminderDate.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @if (@Item.IsSent)
+                                    {
+                                        <span class="badge bg-success">Sent</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">Pending</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="Manage" asp-controller="Reminder" class="btn btn-sm btn-success">Manage</a>
+                                </td>
+                            </tr>
+                            count++;
+                           
                         }
                     }          
             </tbody>

@@ -1,0 +1,49 @@
+﻿@model StudentPlanner.BLL.Models.CourseVM
+@{
+    ViewData["Title"] = "Manage Course";
+}
+<h3>Manage Course</h3>
+<p>You can Edit your Course Data and click on Update</p>
+
+<!--begin::Col-->
+<div class="col-md-10">
+    <!--begin::Quick Example-->
+    <div class="card card-primary card-outline mb-4">
+        <!--begin::Form-->
+        <form asp-controller="Course">
+
+
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="StudentId" />
+
+            <!--begin::Body-->
+            <div class="card-body">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Course Name</label>
+                    <input type="text" class="form-control" asp-for="Name" />
+                </div>
+                @* --------------------------------------- *@
+                <div class="mb-3">
+                    <label for="Code" class="form-label">Course Code</label>
+                    <input type="text" class="form-control" asp-for="Code" />
+                </div>
+                @* --------------------------------------- *@
+                <div class="mb-3">
+                    <label for="Hours" class="form-label">Course Hours / Credit</label>
+                    <input type="text" class="form-control" asp-for="Hours"/>
+                </div>
+                @* --------------------------------------- *@
+            </div>
+            <!--end::Body-->
+            <!--begin::Footer-->
+            <div class="card-footer">
+                <button type="submit" formaction="@Url.Action("Update")" class="btn btn-success">Update</button>
+                <button type="submit" formaction="@Url.Action("Delete")" class="btn btn-danger">Delete</button>
+            </div>
+            <!--end::Footer-->
+        </form>
+        <!--end::Form-->
+    </div>
+</div>
+<!--end::Quick Example-->

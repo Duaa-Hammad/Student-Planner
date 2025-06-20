@@ -9,7 +9,7 @@
         <h3 class="card-title fw-bold">Upcomming Assignments</h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body p-0">
+    <div class="card-body p-0 table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -28,7 +28,7 @@
                 @if(Model == null || !Model.Any())
                 {
                     <tr>
-                        <td colspan="6" class="text-danger text-center fw-bold">No Assignments!</td>
+                        <td colspan="7" class="text-danger text-center fw-bold">No Assignments!</td>
                     </tr>
                 }
                 else
@@ -67,7 +67,7 @@
         <h3 class="card-title fw-bold">Upcomming Exams</h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body p-0">
+    <div class="card-body p-0 table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>

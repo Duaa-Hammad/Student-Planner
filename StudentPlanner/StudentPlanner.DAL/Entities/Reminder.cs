@@ -22,7 +22,7 @@ namespace StudentPlanner.DAL.Entities
         [Required]
         public DateTime ReminderDate { get; set; }
         public ReminderType Type { get; set; }
-        public int? CourseId { get; set; } //FK to Course
+        public int CourseId { get; set; } //FK to Course
         public string? Note { get; set; }
         public DateTime Deadline { get; set; }
         public int StudentId { get; set; }

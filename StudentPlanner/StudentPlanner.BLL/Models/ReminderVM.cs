@@ -28,6 +28,7 @@ namespace StudentPlanner.BLL.Models
         public ReminderType Type { get; set; }
         [Required(ErrorMessage = "You have to input when you want to be reminded")]
         public int ReminderOffsetDays { get; set; }
+        [Required]
         public int CourseId { get; set; }
         [Required(ErrorMessage = "Add note or title for your task")]
         public string Note { get; set; }

@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //----------------------------------------------------------
+builder.Services.AddHostedService<ReminderBackgroundService>();
+
 //Registering the Course Repository in Dependency Injection
 //Object Lifetime - Scoped > one object for each user deals with all operations
 builder.Services.AddScoped<ICourse, CourseRepo>();
@@ -21,7 +23,8 @@ builder.Services.AddScoped<IExam, ExamRepo>();
 builder.Services.AddScoped<IEmail, EmailRepo>();
 //----------------------------------------------------------
 //Mapping
-builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
+//builder.Services.AddAutoMapper(x=> x.AddProfile(new DomainProfile()));
+builder.Services.AddAutoMapper(typeof(DomainProfile));
 //----------------------------------------------------------
 // Connection String
 var connectionString = builder.Configuration.GetConnectionString("StPlannerConnection");
@@ -73,6 +76,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Course}/{action=Index}/{id?}");
+    pattern: "{controller=Reminder}/{action=Index}/{id?}");
 
 app.Run();

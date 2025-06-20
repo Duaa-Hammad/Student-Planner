@@ -76,7 +76,7 @@
                     @* </li> *@
                     <!--end::Navbar Search-->
                     <!--begin::Fullscreen Toggle-->
-                    <li class="nav-item">
+                    <li class="nav-item d-none d-md-block">
                         <a class="nav-link" href="#" data-lte-toggle="fullscreen">
                             <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
                             <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
@@ -95,7 +95,7 @@
                                 <span class="theme-icon-active">
                                     <i class="my-1"></i>
                                 </span>
-                                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                                <span class="d-lg-none ms-2" id="bd-theme-text">Theme</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end"
                             aria-labelledby="bd-theme-text"
@@ -137,7 +137,7 @@
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="~/assets/Users/green.jpg"
+                            <img src="~/assets/Users/Default2.jpg"
                             class="user-image rounded-circle"
                             alt="User Image" />
                             @{
@@ -157,7 +157,7 @@
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header">
-                                <img src="~/assets/Users/green.jpg"
+                                <img src="~/assets/Users/Default2.jpg"
                                      class="rounded-circle shadow mb-2"
                                      alt="User Image"
                                      style="width: 100px; height: 100px; object-fit: cover;" />
@@ -186,7 +186,7 @@
                                 <!--begin::Menu Footer-->
                                 <li class="user-footer d-flex justify-content-center gap-3 px-3 py-3 bg-white">
                                     <!-- Profile Button -->
-                                    <a asp-controller="Account" asp-action="Test" class="btn btn-primary btn-sm d-flex align-items-center">
+                                    <a href="#" class="btn btn-primary btn-sm d-flex align-items-center">
                                         <i class="bi bi-person-circle me-1"></i> Profile
                                     </a>
 
@@ -260,12 +260,12 @@
                                         <p>Add New Course</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Course" asp-action="Delete" class="nav-link">
-                                        <i class="nav-icon bi bi-circle"></i>
-                                        <p>Remove a Course</p>
-                                    </a>
-                                </li>
+                                @* <li class="nav-item"> *@
+                                @*     <a asp-controller="Course" asp-action="Delete" class="nav-link"> *@
+                                @*         <i class="nav-icon bi bi-circle"></i> *@
+                                @*         <p>Remove a Course</p> *@
+                                @*     </a> *@
+                                @* </li> *@
                             </ul>
                         </li>
                     </ul>
@@ -285,7 +285,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-controller="Course" asp-action="Index" class="nav-link">
+                                    <a asp-controller="Reminder" asp-action="Index" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>View All Reminders</p>
                                     </a>

@@ -15,7 +15,7 @@
 
 @* ----------------------------Courses--------------------------------------- *@
 <!-- /.card -->
-<div class="col-md-12">
+<div class="col-md-11">
 
     <div class="card mb-4">
         <div class="card-header">
@@ -43,16 +43,18 @@
         @*End Modal for adding reminders *@
 
 
-        <div class="card-body p-0">
+        <div class="card-body p-0 table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr class="text-center">
                         <th style="width: 10px">#</th>
                         <th>Course Name</th>
                         <th>Course Code</th>
-                        <th>Note</th>
-                        <th>Deadline</th>
-                        <th>Remind Me</th>
+                        @* <th>Note</th> *@
+                        @* <th>Deadline</th> *@
+                        @* <th>Remind Me</th> *@
+                        <th>Set Reminder</th>
+                        <th>Manage</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -62,11 +64,11 @@
                     @if (!Model.Any())
                     {
                         <tr>
-                            <td colspan="5" class="text-danger text-center fw-bold">No Courses!</td>
+                            <td colspan="6" class="text-danger text-center fw-bold">No Courses!</td>
                         </tr> 
                     }
                     else
-                    {
+                    
                         foreach (var Item in Model)
                         {
                             count++;
@@ -75,28 +77,31 @@
                                 <td>@Item.Course.Name</td>
                                 <td>@Item.Course.Code</td>
                              
-                                    @if (Item.Reminders.Any())
-                                    {
-                                        @foreach (var rem in Item.Reminders)
-                                        {
-                                            if (rem.CourseId == Item.Course.Id)
-                                            {
-                                                <td>@rem.Note</td>
-                                                <td>@rem.Deadline</td>
-                                                <td>@rem.ReminderDate</td>
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
+                                    @* @if (Item.Reminders.Any()) *@
+                                    @* { *@
+                                        @* @foreach (var rem in Item.Reminders) *@
+                                        @* { *@
+                                        @*     if (rem.CourseId == Item.Course.Id) *@
+                                        @*     { *@
+                                        @*         <td>@rem.Note</td> *@
+                                        @*         <td>@rem.Deadline</td> *@
+                                        @*         <td>@rem.ReminderDate</td> *@
+                                        @*     } *@
+                                        @* } *@
+                                    @* } *@
+                                    @* else *@
+                                    @* { *@
                                         @* Instead of linking directly to /Reminder/Create, you’ll use JavaScript to load that page's content dynamically inside the modal. *@
-                                    <td colspan="4">
+                                    <td>
                                         <button class="btn btn-primary btn-sm" onclick="openReminderModal(@Item.Course.Id)">Add Reminder</button>
                                     </td>
-                                    }                            
+                                    @* }   *@
+                                    <td>
+                                    <a class="btn btn-success btn-sm" asp-action="Manage" asp-controller="Course" asp-route-Id="@Item.Course.Id">Manage</a>
+                                    </td>
                             </tr>
                         }
-                    }          
+                            
             </tbody>
         </table>
     </div>
