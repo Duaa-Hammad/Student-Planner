@@ -42,7 +42,7 @@ namespace StudentPlanner.BLL.Repository
         public async Task<IEnumerable<Reminder>> GetDueRemindersAsync(CancellationToken cancellationToken)
         {
             return await data.Reminders
-                .Where(r => r.ReminderDate <= DateTime.Now && !r.IsSent)
+                .Where(r => r.ReminderDate <= DateTime.UtcNow && !r.IsSent)
                 .ToListAsync(cancellationToken);
         }
         public async Task SendDueRemindersAsync(CancellationToken cancellationToken)
@@ -76,7 +76,7 @@ namespace StudentPlanner.BLL.Repository
                     string userEmail = st.Email;
                     DAL.Entities.ReminderType type = reminder.Type;
                     // تحديد نوع التذكير
-                    string Remindertype;
+                    string Remindertype="";
 
                     if (type == DAL.Entities.ReminderType.Exam)
                           Remindertype = "exam";
@@ -94,7 +94,7 @@ namespace StudentPlanner.BLL.Repository
                         _ => $"in {daysLeft} days"
                     };
 
-                    string message = $"Hey {studentName}, you have a {type} in {courseData.Name} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
+                    string message = $"Hey {studentName}, you have {Remindertype} in {courseData.Name} {timeFrame} \nDetails\n <<{reminder.Note}>> \n\nBe ready for it!\nBreak a leg buddy \nI know you can do it <3";
 
                     await email.SendEmailAsync(userEmail, "Reminder", message);
 

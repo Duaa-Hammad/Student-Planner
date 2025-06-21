@@ -10,9 +10,11 @@ using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
 using System.Security.Policy;
 using System;
 using StudentPlanner.BLL.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentPlanner.PL.Controllers
 {
+    [Authorize]
     public class ReminderController : Controller
     {
         private readonly IReminder reminderData;
@@ -80,13 +82,15 @@ namespace StudentPlanner.PL.Controllers
             // Get student linked to that user
             var student = await studentData.GetStudentByIdentityUserId(userId);
 
-            model.ReminderDate = model.Deadline.AddDays(-model.ReminderOffsetDays);
+            TimeZoneInfo libyaZone = TimeZoneInfo.FindSystemTimeZoneById("E. Europe Standard Time");
+            DateTime deadlineUtc = TimeZoneInfo.ConvertTimeToUtc(model.Deadline, libyaZone);
+            DateTime reminderDateUtc = deadlineUtc.AddDays(-model.ReminderOffsetDays);
 
             Reminder reminderEntity = new Reminder()
             {
                 Deadline = model.Deadline,
                 StudentId = student.Id,
-                ReminderDate = model.ReminderDate,
+                ReminderDate = reminderDateUtc,
                 Note = model.Note,
                 Type = (DAL.Entities.ReminderType)model.Type,
                 CourseId = model.CourseId
@@ -97,7 +101,7 @@ namespace StudentPlanner.PL.Controllers
                 {
                     CourseId = model.CourseId,
                     StudentId = student.Id,
-                    DueDate = model.Deadline,
+                    DueDate = deadlineUtc,
                     Title = model.Note,
                 };
                 await assignmentData.AddAssignment(assingEntity);
@@ -111,7 +115,7 @@ namespace StudentPlanner.PL.Controllers
                 {
                     CourseId = model.CourseId,
                     StudentId = student.Id,
-                    Date = model.Deadline,
+                    Date = deadlineUtc,
                     Note = model.Note,
                 };
                 await examData.AddExam(examEntity);
@@ -148,7 +152,7 @@ namespace StudentPlanner.PL.Controllers
                     _ => $"in {daysLeft} days"
                 };
 
-                string message = $"Hey {studentName}, you have a {type} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
+                string message = $"Hey {studentName}, you have {type} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
 
                 await email.SendEmailAsync(userEmail, "Reminder", message);
 
