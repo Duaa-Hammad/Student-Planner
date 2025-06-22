@@ -40,6 +40,12 @@ namespace StudentPlanner.BLL.Repository
                 await data.SaveChangesAsync();
             }
         }
+        public async Task DeleteAssignmentById(int? Id)
+        {
+            var assignment =  await data.Assignments.Where(data => data.Id == Id).FirstOrDefaultAsync();
+            data.Assignments.Remove(assignment);
+            await data.SaveChangesAsync();
+        }
 
     }
 }

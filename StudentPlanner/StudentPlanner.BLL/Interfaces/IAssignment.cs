@@ -13,5 +13,6 @@ namespace StudentPlanner.BLL.Interfaces
         public Task AddAssignment(Assignment model);
         public Task DeleteAssignmentByCourseId(int Id);
         public Task<Assignment> FindAssignmentByCourseId(int Id);
-       }
+        public Task DeleteAssignmentById(int? Id);
+    }
 }

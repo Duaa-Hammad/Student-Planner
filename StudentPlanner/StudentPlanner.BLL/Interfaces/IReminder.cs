@@ -20,5 +20,9 @@ namespace StudentPlanner.BLL.Interfaces
         // هذه الدالة ترجع كل التذكيرات المستحقة للإرسال وتقوم بإرسالها
         public Task SendDueRemindersAsync(CancellationToken cancellationToken);
         public Task UpdateAsync(Reminder reminder, CancellationToken cancellationToken);
+        public Task<Reminder> FindCourseReminder(int Id);
+        public Task<Reminder> GetReminderById(int Id);
+        public Task DeleteReminderAsync(Reminder reminder);
+        public Task UpdateReminderAsync(Reminder reminder);
     }
 }

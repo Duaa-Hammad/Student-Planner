@@ -11,6 +11,7 @@ using System.Security.Policy;
 using System;
 using StudentPlanner.BLL.Repository;
 using Microsoft.AspNetCore.Authorization;
+using StudentPlanner.BLL.TimeHelper;
 
 namespace StudentPlanner.PL.Controllers
 {
@@ -82,26 +83,28 @@ namespace StudentPlanner.PL.Controllers
             // Get student linked to that user
             var student = await studentData.GetStudentByIdentityUserId(userId);
 
-            TimeZoneInfo libyaZone = TimeZoneInfo.FindSystemTimeZoneById("E. Europe Standard Time");
-            DateTime deadlineUtc = TimeZoneInfo.ConvertTimeToUtc(model.Deadline, libyaZone);
-            DateTime reminderDateUtc = deadlineUtc.AddDays(-model.ReminderOffsetDays);
+            // افترضي إن التاريخ اللي أدخله المستخدم هو بتوقيت ليبيا (بدون تحديد Kind)
+            var deadlineLibya = DateTime.SpecifyKind(model.Deadline, DateTimeKind.Unspecified);
+            var reminderDateLibya = deadlineLibya.AddDays(-model.ReminderOffsetDays);
 
             Reminder reminderEntity = new Reminder()
             {
-                Deadline = model.Deadline,
+                Deadline = ConvertTime.ToUtcFromLibya(deadlineLibya),
+                ReminderDate = ConvertTime.ToUtcFromLibya(reminderDateLibya),
                 StudentId = student.Id,
-                ReminderDate = reminderDateUtc,
                 Note = model.Note,
                 Type = (DAL.Entities.ReminderType)model.Type,
                 CourseId = model.CourseId
             };
+
+
             if (model.Type == BLL.Models.ReminderType.Assignment)
             {
                 Assignment assingEntity = new Assignment()
                 {
                     CourseId = model.CourseId,
                     StudentId = student.Id,
-                    DueDate = deadlineUtc,
+                    DueDate = ConvertTime.ToUtcFromLibya(deadlineLibya),
                     Title = model.Note,
                 };
                 await assignmentData.AddAssignment(assingEntity);
@@ -115,7 +118,7 @@ namespace StudentPlanner.PL.Controllers
                 {
                     CourseId = model.CourseId,
                     StudentId = student.Id,
-                    Date = deadlineUtc,
+                    Date = ConvertTime.ToUtcFromLibya(deadlineLibya),
                     Note = model.Note,
                 };
                 await examData.AddExam(examEntity);
@@ -126,7 +129,7 @@ namespace StudentPlanner.PL.Controllers
 
             await reminderData.AddReminder(reminderEntity);
 
-            return RedirectToAction("Index", "Course", new { id = model.CourseId });
+            return RedirectToAction("Index");
         }
         //------------------------------------------------------------------------------------
             [HttpGet]
@@ -163,19 +166,66 @@ namespace StudentPlanner.PL.Controllers
         }
         //-----------------------------------------------------
         //Not Mine!
-        public IActionResult Delete(int Id)
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
         {
-            var reminder = reminderData.GetRemindersByUserId(Id);
-            if (reminder == null)
+            var reminder = await reminderData.GetReminderById(Id);
+            int? assignmentId = reminder.AssignmentId;
+            int? examId = reminder.ExamId;
+
+            //Here we cannot delete assignment or exam if there's reminder related to it.
+            //so we delete the reminder first, then assignment or exam if exists.
+            await reminderData.DeleteReminderAsync(reminder);
+
+            if(reminder.Type.Equals(BLL.Models.ReminderType.Assignment) && assignmentId.HasValue)
             {
-                return NotFound();
+                await assignmentData.DeleteAssignmentById(reminder.AssignmentId);
             }
-            return PartialView("_DeleteReminderPartial", reminder);
+
+            else if (reminder.Type.Equals(BLL.Models.ReminderType.Exam) && examId.HasValue)
+            {
+                await examData.DeleteExamById(reminder.ExamId);
+            }
+
+            return RedirectToAction("Index");
         }
         //-----------------------------------------------------
-        public IActionResult Manage()
+        public async Task<IActionResult> Update(ReminderVM newReminder)
         {
-            return View();
+            // نحدد إن الوقت جاينا من المستخدم وبدون timezone، نعامله كأنه بتوقيت ليبيا
+            var deadlineLibya = DateTime.SpecifyKind(newReminder.Deadline, DateTimeKind.Unspecified);
+
+            // نحسب وقت التذكير حسب الـ Offset
+            var reminderDateLibya = deadlineLibya.AddDays(-newReminder.ReminderOffsetDays);
+
+            // نحول للتوقيت العالمي للتخزين
+            var reminderEntity = mapper.Map<Reminder>(newReminder);
+            reminderEntity.Deadline = ConvertTime.ToUtcFromLibya(deadlineLibya);
+            reminderEntity.ReminderDate = ConvertTime.ToUtcFromLibya(reminderDateLibya);
+
+            await reminderData.UpdateReminderAsync(reminderEntity);
+            return RedirectToAction("Index");
+        }
+
+        //-----------------------------------------------------
+
+        public async Task<IActionResult> Manage(int Id)
+        {
+            var reminder = await reminderData.GetReminderById(Id);
+
+            ViewBag.DepList = new SelectList(Enum.GetValues(typeof(BLL.Models.ReminderType)).Cast<BLL.Models.ReminderType>()
+            .Select(e => new { Id = (int)e, Name = e.ToString() }), "Id", "Name");
+
+           
+
+            var reminderVM = mapper.Map<ReminderVM>(reminder);
+
+            reminderVM.ReminderOffsetDays = (reminder.Deadline - reminder.ReminderDate).Days;
+
+            reminderVM.Deadline = ConvertTime.ToLibyaTime(reminder.Deadline);
+            reminderVM.ReminderDate = ConvertTime.ToLibyaTime(reminder.ReminderDate);
+
+            return View(reminderVM);
         }
     }
 }

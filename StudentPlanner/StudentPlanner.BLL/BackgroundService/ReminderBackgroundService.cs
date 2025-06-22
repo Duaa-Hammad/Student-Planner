@@ -41,7 +41,7 @@ namespace StudentPlanner.BLL.Repository
                 {
                     logger.LogError(ex, "Error occurred while sending reminders.");
                 }
-                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
             logger.LogInformation("Reminder Background Service is stopping.");
         }

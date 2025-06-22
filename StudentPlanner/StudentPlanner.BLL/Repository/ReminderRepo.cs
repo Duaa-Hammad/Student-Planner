@@ -1,14 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StudentPlanner.BLL.Interfaces;
-using StudentPlanner.BLL.Models;
 using StudentPlanner.DAL.Database;
 using StudentPlanner.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentPlanner.BLL.Repository
 {
@@ -109,9 +103,9 @@ namespace StudentPlanner.BLL.Repository
                 }
             }
         }
-        public async Task<Reminder> FindCourseReminder (int Id)
+        public async Task<Reminder> FindCourseReminder (int CourseId)
         {
-            var reminder = await data.Reminders.Where(e => e.CourseId == Id).FirstOrDefaultAsync();
+            var reminder = await data.Reminders.Include("Course").Where(e => e.CourseId == CourseId).FirstOrDefaultAsync();
             return reminder;
         }
         public async Task DeleteReminderByCourseId(int Id)
@@ -125,6 +119,23 @@ namespace StudentPlanner.BLL.Repository
                 data.Reminders.RemoveRange(reminders);
                 await data.SaveChangesAsync();
             }
+        }
+
+        public async Task<Reminder> GetReminderById(int Id)
+        {
+            return await data.Reminders.Include("Course").Where(r => r.Id == Id).FirstOrDefaultAsync();
+        }
+
+        public async Task DeleteReminderAsync(Reminder reminder)
+        {
+            data.Reminders.Remove(reminder);
+            await data.SaveChangesAsync();
+        }
+
+        public async Task UpdateReminderAsync(Reminder reminder)
+        {
+            data.Reminders.Update(reminder);
+            await data.SaveChangesAsync();
         }
 
     }

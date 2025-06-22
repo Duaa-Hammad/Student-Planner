@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<StudentPlanner.BLL.Models.ReminderVM>;
 @using StudentPlanner.BLL.Models
+@using StudentPlanner.BLL.TimeHelper
 @{
     ViewData["Title"] = "Reminders";
 }
@@ -36,15 +37,15 @@
                     }
                     @if (!Model.Any())
                     {
-                           <tr>
+                        <tr>
                             <td colspan="7" class="text-danger text-center fw-bold">No Reminders</td>
-                           </tr> 
+                        </tr> 
                     }
                     else
                     {
                         foreach (var Item in Model)
                         {
-                            var reminderLocalTime = TimeZoneInfo.ConvertTimeFromUtc(Item.ReminderDate, timeZone);
+                            var reminderDate = ConvertTime.ToLibyaTime(@Item.ReminderDate);
 
                             <tr class="align-middle">
                                 <td>@count</td>
@@ -60,8 +61,7 @@
                                     <td class="text-danger fw-bold">Exam</td>
                                 }
                                 <td>
-                                    @* @Item.ReminderDate.ToString("dd/MM/yyyy") *@
-                                    @reminderLocalTime.ToString("f")
+                                   @reminderDate.ToString("f")
                                 </td>
                                 <td>
                                     @if (@Item.IsSent)
@@ -74,7 +74,8 @@
                                     }
                                 </td>
                                 <td>
-                                    <a asp-action="Manage" asp-controller="Reminder" class="btn btn-sm btn-success">Manage</a>
+
+                                    <a asp-action="Manage" asp-controller="Reminder" asp-route-Id="@Item.Id" class="btn btn-sm btn-success">Manage</a>
                                 </td>
                             </tr>
                             count++;                          

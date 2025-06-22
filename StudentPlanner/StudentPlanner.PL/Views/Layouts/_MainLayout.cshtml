@@ -136,16 +136,25 @@
                     </ul>
                     <!--end::Color Theme Toggler-->
                     <!--begin::User Menu Dropdown-->
+                    @{
+                        var userId = UserManager.GetUserId(User);
+                        var student = DbContext.Students.FirstOrDefault(s => s.IdentityUserId == userId);
+                    }
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="~/assets/Users/Default2.jpg"
-                            class="user-image rounded-circle"
-                            alt="User Image" />
-                            @{
-                                var userId = UserManager.GetUserId(User);
-                                var student = DbContext.Students.FirstOrDefault(s => s.IdentityUserId == userId);
+                            @if (userId == "ed5198ff-58a0-4c51-bd92-729ab9dbe4a2")
+                            {
+                                <img src="~/assets/Users/ProfileBlue.jpg"
+                                class="user-image rounded-circle"
+                                alt="User Image" />
                             }
-
+                            else
+                            {
+                                <img src="~/assets/Users/Default2.jpg"
+                                     class="user-image rounded-circle"
+                                     alt="User Image" />
+                            }
+                        
                             @if (student != null)
                             {
                                 <span class="d-none d-md-inline">@student.Name</span>
@@ -158,11 +167,20 @@
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header">
-                                <img src="~/assets/Users/Default2.jpg"
-                                     class="rounded-circle shadow mb-2"
-                                     alt="User Image"
-                                     style="width: 100px; height: 100px; object-fit: cover;" />
-
+                                @if (userId == "ed5198ff-58a0-4c51-bd92-729ab9dbe4a2")
+                                {
+                                    <img src="~/assets/Users/ProfileBlue.jpg"
+                                         class="rounded-circle shadow mb-2"
+                                         alt="User Image"
+                                         style="width: 100px; height: 100px; object-fit: cover;" />
+                                }
+                                else 
+                                {
+                                    <img src="~/assets/Users/Default2.jpg"
+                                         class="rounded-circle shadow mb-2"
+                                         alt="User Image"
+                                         style="width: 100px; height: 100px; object-fit: cover;" />
+                                }
                                 @if (student == null)
                                 {
                                     <a asp-action="Login" asp-controller="Account" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center text-center">
@@ -176,7 +194,7 @@
                                     var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Libya Standard Time"); // Libya
                                     var localTime = TimeZoneInfo.ConvertTimeFromUtc(student.CreatedAt, timeZone);
 
-                                    <small>Member since @localTime.ToString("f")</small> <!-- يعرض الوقت والتاريخ بصيغة كاملة -->
+                                    <small>Member since:<br />@localTime.ToString("f")</small> <!-- يعرض الوقت والتاريخ بصيغة كاملة -->
                                     <br />
                                     @* <small class="text-light">Member since @student.CreatedAt UTC Time</small> <!--shows the univseral time--> *@
                                 }
@@ -185,9 +203,9 @@
                             @if (student != null)
                             {
                                 <!--begin::Menu Footer-->
-                                <li class="user-footer d-flex justify-content-center gap-3 px-3 py-3 bg-white">
+                                <li class="user-footer d-flex justify-content-center gap-3 px-3 py-3">
                                     <!-- Profile Button -->
-                                    <a href="#" class="btn btn-primary btn-sm d-flex align-items-center">
+                                    <a asp-controller="Student" asp-action="Profile" class="btn btn-primary btn-sm d-flex align-items-center">
                                         <i class="bi bi-person-circle me-1"></i> Profile
                                     </a>
 

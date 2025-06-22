@@ -13,5 +13,6 @@ namespace StudentPlanner.BLL.Interfaces
         public Task AddExam(Exam model);
         public Task DeleteExamByCourseId(int Id);
         public Task<Exam> FindExamByCourseId(int Id);
+        public Task DeleteExamById(int? Id);
     }
 }

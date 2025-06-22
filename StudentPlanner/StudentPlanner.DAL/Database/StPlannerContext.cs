@@ -54,14 +54,15 @@ namespace StudentPlanner.DAL.Database
                 .HasForeignKey(r => r.StudentId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Assignment -> Reminders (SetNull)
+            //Here we cannot delete assignment or exam if there's reminder related to it.
+            // Assignment -> Reminders (Restrict)
             modelBuilder.Entity<Reminder>()
                 .HasOne(r => r.Assignment)
                 .WithMany(a => a.Reminders)
                 .HasForeignKey(r => r.AssignmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Exam -> Reminders (SetNull)
+            // Exam -> Reminders (Restrict)
             modelBuilder.Entity<Reminder>()
                 .HasOne(r => r.Exam)
                 .WithMany(e => e.Reminders)

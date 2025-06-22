@@ -23,8 +23,15 @@ namespace StudentPlanner.BLL.Mapper
             CreateMap<RegistrationVM, ApplicationUser>().
             ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
-            CreateMap<ReminderVM, Reminder>();
+            CreateMap<ReminderVM, Reminder>().ForMember(dest => dest.Course, opt => opt.Ignore());
+
             CreateMap<Reminder, ReminderVM>();
+
+            CreateMap<StudentVM, Student>()
+                .ForMember(dest => dest.IdentityUserId, opt => opt.Ignore())
+                .ForMember(dest => dest.IdentityUser, opt => opt.Ignore());
+            CreateMap<Student, StudentVM>()
+                .ForMember(dest => dest.IdentityUserId, opt => opt.Ignore());
         }
     }
 }

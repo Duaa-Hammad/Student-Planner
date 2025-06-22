@@ -37,5 +37,11 @@ namespace StudentPlanner.BLL.Repository
                 await data.SaveChangesAsync();
             }
         }
+        public async Task DeleteExamById(int? Id)
+        {
+            var exam =  await data.Exams.Where(data => data.Id == Id).FirstOrDefaultAsync();
+            data.Exams.Remove(exam);
+            await data.SaveChangesAsync();
+        }
     }
 }
