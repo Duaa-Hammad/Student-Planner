@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using StudentPlanner.BLL.Interfaces;
 using StudentPlanner.BLL.Models;
 using StudentPlanner.DAL.Database;
 using StudentPlanner.DAL.Entities;
 using StudentPlanner.DAL.Extends;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 
 namespace StudentPlanner.PL.Controllers
 {
@@ -15,14 +19,15 @@ namespace StudentPlanner.PL.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IMapper mapper;
-        //Dependency Injection for Course Repository
         private readonly IStudent data;
-        public AccountController (UserManager<ApplicationUser> userManager, IMapper mapper, IStudent data, SignInManager<ApplicationUser> signInManager)
+        private readonly IEmail email;
+        public AccountController(UserManager<ApplicationUser> userManager, IMapper mapper, IStudent data, SignInManager<ApplicationUser> signInManager, IEmail email)
         {
             this.userManager = userManager;
             this.mapper = mapper;
             this.data = data;
             this.signInManager = signInManager;
+            this.email = email;
         }
         public IActionResult Login()
         {
@@ -115,17 +120,86 @@ namespace StudentPlanner.PL.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        //-------------------------------------------------------------------------
+        [HttpGet]
         public IActionResult ForgotPassword()
         {
             return View();
         }
-        public IActionResult Test ()
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Email Not Found!");
+                return View(model);
+            }
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            var callbackUrl = Url.Action("ResetPassword", "Account",
+                new { token = token, email = model.Email },
+                protocol: Request.Scheme);
+
+            //await email.SendEmailAsync(model.Email, "Reset Password",
+            //    $"Reset your password by <a href='{callbackUrl}'>clicking here</a>.");
+
+            string message = $@"
+                <p>Please reset your password by clicking the button below:</p>
+                <a href='{callbackUrl}' style='
+                    display:inline-block;
+                    padding:10px 20px;
+                    font-size:16px;
+                    color:#fff;
+                    background-color:#0d6efd;
+                    border-radius:5px;
+                    text-decoration:none;
+                '>Reset Password</a>
+                <p>If the button doesn't work, copy and paste this URL into your browser:</p>
+                <p>{callbackUrl}</p>
+                ";
+
+            await email.SendEmailAsync(model.Email, "إعادة تعيين كلمة المرور", message);
+
+            return RedirectToAction("ResetPasswordConfirmation");
+        }
+
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
         {
             return View();
         }
-        public IActionResult MyTest()
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
         {
-            return View();
+            return View(new ResetPasswordVM { Token = token, Email = email });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return RedirectToAction("ResetPasswordConfirmation");
+
+            var result = await userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+            if (result.Succeeded)
+                return RedirectToAction("ResetPasswordConfirmation");
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+
+            return View(model);
         }
     }
 }

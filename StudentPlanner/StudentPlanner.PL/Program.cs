@@ -20,6 +20,7 @@ builder.Services.AddScoped<IStudent, StudentRepo>();
 builder.Services.AddScoped<IReminder, ReminderRepo>();
 builder.Services.AddScoped<IAssignment, AssignmentRepo>();
 builder.Services.AddScoped<IExam, ExamRepo>();
+
 builder.Services.AddScoped<IEmail, EmailRepo>();
 //----------------------------------------------------------
 //Mapping
@@ -71,6 +72,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

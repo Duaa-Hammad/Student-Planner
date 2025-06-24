@@ -6,6 +6,7 @@ namespace StudentPlanner.PL.Controllers;
 [Authorize]
 public class HomeController : Controller
 {
+    [Authorize]
       public IActionResult Index()
         {
         return View();

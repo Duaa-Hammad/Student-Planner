@@ -37,7 +37,7 @@ namespace StudentPlanner.BLL.Repository
                     From = new MailAddress(config["EmailSettings:SenderEmail"]),
                     Subject = subject,
                     Body = body,
-                    IsBodyHtml = false
+                    IsBodyHtml = true,
                 };
                 mailMessage.To.Add(toEmail);
 

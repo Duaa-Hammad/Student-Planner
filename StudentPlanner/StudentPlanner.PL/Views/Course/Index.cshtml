@@ -97,11 +97,14 @@
                                     </td>
                                     @* }   *@
                                     <td>
-                                    <a class="btn btn-success btn-sm" asp-action="Manage" asp-controller="Course" asp-route-Id="@Item.Course.Id">Manage</a>
+                                    <a class="btn btn-success btn-sm" asp-action="Manage" asp-controller="Course" asp-route-Id="@Item.Course.Id">
+                                        @* <i class="bi bi-sliders"></i> *@
+                                        <i class="bi bi-sliders2"></i>
+                                        Manage
+                                        </a>
                                     </td>
                             </tr>
-                        }
-                            
+                        }                           
             </tbody>
         </table>
     </div>

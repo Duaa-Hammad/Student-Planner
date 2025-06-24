@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StudentPlanner.BLL.Interfaces;
@@ -7,6 +8,7 @@ using StudentPlanner.DAL.Extends;
 
 namespace StudentPlanner.PL.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
         private readonly IStudent studentData;
