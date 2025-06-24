@@ -11,8 +11,7 @@
     <div class="card card-primary card-outline mb-4">
         <!--begin::Form-->
         <form asp-controller="Course">
-
-
+            @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Id"/>
             <input type="hidden" asp-for="StudentId" />
 

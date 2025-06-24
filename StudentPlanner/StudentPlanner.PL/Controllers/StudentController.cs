@@ -11,6 +11,7 @@ namespace StudentPlanner.PL.Controllers
     [Authorize]
     public class StudentController : Controller
     {
+        #region DI
         private readonly IStudent studentData;
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> userManager;
@@ -20,6 +21,9 @@ namespace StudentPlanner.PL.Controllers
             this.mapper = mapper;
             this.userManager = userManager;
         }
+        #endregion
+        //-----------------------------------------------------
+        #region ViewStudentProfile
         public async Task<IActionResult> Profile()
         {
             var userId = userManager.GetUserId(User);
@@ -32,5 +36,8 @@ namespace StudentPlanner.PL.Controllers
 
             return View(studentVM);
         }
+        #endregion
+        //-----------------------------------------------------
     }
+
 }

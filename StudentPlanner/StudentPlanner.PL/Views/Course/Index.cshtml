@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StudentPlanner.BLL.Models.CourseWithRemindersVM>;
+﻿@model IEnumerable<StudentPlanner.BLL.Models.CourseVM>;
 @{
     ViewData["Title"] = "Courses";
 }
@@ -50,9 +50,6 @@
                         <th style="width: 10px">#</th>
                         <th>Course Name</th>
                         <th>Course Code</th>
-                        @* <th>Note</th> *@
-                        @* <th>Deadline</th> *@
-                        @* <th>Remind Me</th> *@
                         <th>Set Reminder</th>
                         <th>Manage</th>
                     </tr>
@@ -74,36 +71,20 @@
                             count++;
                             <tr class="align-middle">
                                 <td>@count</td>
-                                <td>@Item.Course.Name</td>
-                                <td>@Item.Course.Code</td>
-                             
-                                    @* @if (Item.Reminders.Any()) *@
-                                    @* { *@
-                                        @* @foreach (var rem in Item.Reminders) *@
-                                        @* { *@
-                                        @*     if (rem.CourseId == Item.Course.Id) *@
-                                        @*     { *@
-                                        @*         <td>@rem.Note</td> *@
-                                        @*         <td>@rem.Deadline</td> *@
-                                        @*         <td>@rem.ReminderDate</td> *@
-                                        @*     } *@
-                                        @* } *@
-                                    @* } *@
-                                    @* else *@
-                                    @* { *@
-                                        @* Instead of linking directly to /Reminder/Create, you’ll use JavaScript to load that page's content dynamically inside the modal. *@
-                                    <td>
-                                        <button class="btn btn-primary btn-sm" onclick="openReminderModal(@Item.Course.Id)">Add Reminder</button>
-                                    </td>
-                                    @* }   *@
-                                    <td>
-                                    <a class="btn btn-success btn-sm" asp-action="Manage" asp-controller="Course" asp-route-Id="@Item.Course.Id">
-                                        @* <i class="bi bi-sliders"></i> *@
-                                        <i class="bi bi-sliders2"></i>
-                                        Manage
-                                        </a>
-                                    </td>
-                            </tr>
+                                <td>@Item.Name</td>
+                                <td>@Item.Code</td>
+                                <td>
+                             <button class="btn btn-primary btn-sm" onclick="openReminderModal(@Item.Id)">Add Reminder</button>
+                                </td>
+                                   
+                            <td>
+                            <a class="btn btn-success btn-sm" asp-action="Manage" asp-controller="Course" asp-route-Id="@Item.Id">
+                                @* <i class="bi bi-sliders"></i> *@
+                                <i class="bi bi-sliders2"></i>
+                                Manage
+                                </a>
+                            </td>
+                         </tr>
                         }                           
             </tbody>
         </table>

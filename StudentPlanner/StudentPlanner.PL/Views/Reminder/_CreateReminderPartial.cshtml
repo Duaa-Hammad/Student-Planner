@@ -2,6 +2,8 @@
 
 <form asp-action="Create" asp-controller="Reminder">
 
+    @Html.AntiForgeryToken()
+
     <input type="hidden" asp-for="CourseId" />
 @* --------------------------------------------------------------------------- *@
 
@@ -47,8 +49,6 @@
         <label asp-for="Note" class="form-label">Add Note</label>
         <input asp-for="Note" type="text" class="form-control" />
     </div>
-
-  
     @* ------------------------------------- *@
 
     <button type="submit" class="btn btn-success">Set Reminder</button>

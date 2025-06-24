@@ -88,7 +88,7 @@ namespace StudentPlanner.BLL.Repository
                         _ => $"in {daysLeft} days"
                     };
 
-                    string message = $"Hey {studentName}, you have {Remindertype} in {courseData.Name} {timeFrame} \nDetails\n <<{reminder.Note}>> \n\nBe ready for it!\nBreak a leg buddy \nI know you can do it <3";
+                    string message = $"Hey {studentName}, you have {Remindertype} in {courseData.Name} {timeFrame} <br/>Details:<br/>{reminder.Note}<br/>Be ready for it!<br/>Break a leg buddy<br/>I know you can do it <3";
 
                     await email.SendEmailAsync(userEmail, "Reminder", message);
 

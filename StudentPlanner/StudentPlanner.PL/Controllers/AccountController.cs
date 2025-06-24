@@ -16,6 +16,7 @@ namespace StudentPlanner.PL.Controllers
 {
     public class AccountController : Controller
     {
+        #region DI
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IMapper mapper;
@@ -29,11 +30,15 @@ namespace StudentPlanner.PL.Controllers
             this.signInManager = signInManager;
             this.email = email;
         }
+        #endregion
+        //-----------------------------------------------------
+        #region Login
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM userLogin)
         {
             try
@@ -47,7 +52,7 @@ namespace StudentPlanner.PL.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "Email Not Found!");
+                    ModelState.AddModelError("", "Email or Password is Incorrect");
                     return View(userLogin);
                 }
 
@@ -58,7 +63,7 @@ namespace StudentPlanner.PL.Controllers
                     return RedirectToAction("Index", "Course");
                 }
 
-                ModelState.AddModelError("", "Incorrect Password!");
+                ModelState.AddModelError("", "Email or Password is Incorrect");
                 return View(userLogin);
             }
             catch (Exception ex)
@@ -73,6 +78,7 @@ namespace StudentPlanner.PL.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration(RegistrationVM newUser)
         {
             if (!ModelState.IsValid)
@@ -114,13 +120,17 @@ namespace StudentPlanner.PL.Controllers
                 return View(newUser);
             }
         }
-
+        #endregion
+        //-----------------------------------------------------
+        #region Logout
         public async Task<IActionResult> LogOut()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
-        //-------------------------------------------------------------------------
+        #endregion
+        //-----------------------------------------------------
+        #region ResetPassword
         [HttpGet]
         public IActionResult ForgotPassword()
         {
@@ -128,6 +138,7 @@ namespace StudentPlanner.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
         {
             if (!ModelState.IsValid)
@@ -136,7 +147,7 @@ namespace StudentPlanner.PL.Controllers
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Email Not Found!");
+                //ModelState.AddModelError("", "Email Not Found!");
                 return View(model);
             }
 
@@ -174,7 +185,7 @@ namespace StudentPlanner.PL.Controllers
         {
             return View();
         }
-
+        //This action will be accessed via the link in the email sent to the user
         [HttpGet]
         public IActionResult ResetPassword(string token, string email)
         {
@@ -182,6 +193,7 @@ namespace StudentPlanner.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
         {
             if (!ModelState.IsValid)
@@ -201,5 +213,6 @@ namespace StudentPlanner.PL.Controllers
 
             return View(model);
         }
+        #endregion
     }
 }

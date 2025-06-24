@@ -54,7 +54,9 @@
             <div class="card-body register-card-body">
                 <p class="register-box-msg">Register a new Membership</p>
                 <div asp-validation-summary="All" class="text-danger"></div>
+                @* ------------------------------------------------------------------------- *@
                 <form asp-action="Registration" asp-controller="Account">
+                    @Html.AntiForgeryToken()
                     <div class="input-group mb-1">
                         <div class="form-floating">
                             <input asp-for="Name" type="text" class="form-control" placeholder="Full Name..." />
@@ -102,6 +104,7 @@
                     </div>
                     <!--end::Row-->
                 </form>
+                @* --------------------------------------------------------------- *@
                 @* <div class="social-auth-links text-center mb-3 d-grid gap-2"> *@
                 @*     <p>- OR -</p> *@
                 @*     <a href="#" class="btn btn-primary"> *@

@@ -7,6 +7,7 @@
 
 
 <form asp-controller="Reminder" class="col-md-10">
+    @Html.AntiForgeryToken()
 
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="CourseId" />

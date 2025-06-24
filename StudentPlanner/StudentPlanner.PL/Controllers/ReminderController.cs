@@ -18,15 +18,17 @@ namespace StudentPlanner.PL.Controllers
     [Authorize]
     public class ReminderController : Controller
     {
+        #region DI
         private readonly IReminder reminderData;
         private readonly IStudent studentData;
+        private readonly ICourse course;
         private readonly IAssignment assignmentData;
         private readonly IExam examData;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
         //------------------------------------------------------------------
         private readonly IEmail email;
-        public ReminderController(IReminder reminderData, IMapper mapper, UserManager<ApplicationUser> userManager, IStudent studentData, IAssignment assignmentData, IExam examData, IEmail email)
+        public ReminderController(IReminder reminderData, IMapper mapper, UserManager<ApplicationUser> userManager, IStudent studentData, IAssignment assignmentData, IExam examData, IEmail email, ICourse course)
         {
             this.reminderData = reminderData;
             this.studentData = studentData;
@@ -35,7 +37,11 @@ namespace StudentPlanner.PL.Controllers
             this.assignmentData = assignmentData;
             this.examData = examData;
             this.email = email;
+            this.course = course;
         }
+        #endregion
+        //-----------------------------------------------------
+        #region ViewAllReminders
         public async Task<IActionResult> Index()
         {
             var userId = userManager.GetUserId(User);
@@ -49,17 +55,17 @@ namespace StudentPlanner.PL.Controllers
 
             return View(stRemindersVM);
         }
-        public IActionResult Create(int courseId)
+        #endregion
+        //-----------------------------------------------------
+        #region Create
+        public async Task<IActionResult> Create(int courseId)
         {
             ViewBag.DepList = new SelectList(Enum.GetValues(typeof(BLL.Models.ReminderType)).Cast<BLL.Models.ReminderType>()
                .Select(e => new { Id = (int)e, Name = e.ToString() }),"Id", "Name");
 
-            var model = new ReminderVM
-            {
-                CourseId = courseId,
-                Deadline = DateTime.Now.AddDays(7), // ممكن تحطي تاريخ افتراضي بعد أسبوع
-                ReminderOffsetDays = 1 //1 day before (default)
-            };
+            //var courseEntity = await course.GetCourseByIdAsync(courseId);
+            //var courseVM = mapper.Map<CourseVM>(courseEntity);
+
             return PartialView("_CreateReminderPartial");
         }
 
@@ -83,7 +89,6 @@ namespace StudentPlanner.PL.Controllers
             // Get student linked to that user
             var student = await studentData.GetStudentByIdentityUserId(userId);
 
-            // افترضي إن التاريخ اللي أدخله المستخدم هو بتوقيت ليبيا (بدون تحديد Kind)
             var deadlineLibya = DateTime.SpecifyKind(model.Deadline, DateTimeKind.Unspecified);
             var reminderDateLibya = deadlineLibya.AddDays(-model.ReminderOffsetDays);
 
@@ -97,7 +102,7 @@ namespace StudentPlanner.PL.Controllers
                 CourseId = model.CourseId
             };
 
-
+            #region Assignment
             if (model.Type == BLL.Models.ReminderType.Assignment)
             {
                 Assignment assingEntity = new Assignment()
@@ -112,6 +117,8 @@ namespace StudentPlanner.PL.Controllers
                 reminderEntity.AssignmentId = assingEntity.Id;
 
             }
+            #endregion
+            #region Exam
             else if (model.Type == BLL.Models.ReminderType.Exam)
             {
                 Exam examEntity = new Exam()
@@ -126,47 +133,17 @@ namespace StudentPlanner.PL.Controllers
                 reminderEntity.ExamId = examEntity.Id;
 
             }
-
+            #endregion
             await reminderData.AddReminder(reminderEntity);
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
-        //------------------------------------------------------------------------------------
-            [HttpGet]
-            public async Task<IActionResult> TestEmail()
-            {
-            var userId = userManager.GetUserId(User);
-            if (userId== null)
-            {
-                return Unauthorized();
-            }
-            var st = await studentData.GetStudentByIdentityUserId(userId);
-            string studentName = st.Name;
-            string type = "assignment";
-            int daysLeft = 3;
-            string userEmail = st.Email;
-
-            string timeFrame = daysLeft switch
-                {
-                    1 => "tomorrow",
-                    3 => "in 3 days",
-                    7 => "in a week",
-                    30 => "in a month",
-                    _ => $"in {daysLeft} days"
-                };
-
-                string message = $"Hey {studentName}, you have {type} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
-
-                await email.SendEmailAsync(userEmail, "Reminder", message);
-
-            //return Content("Email Sent Successfully!");
-
-            TempData["SuccessMessage"] = "Email Sent Successfully!";
-            return RedirectToAction("Index","Course");
-        }
+        #endregion
         //-----------------------------------------------------
-        //Not Mine!
+        #region Delete
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int Id)
         {
             var reminder = await reminderData.GetReminderById(Id);
@@ -189,7 +166,11 @@ namespace StudentPlanner.PL.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
         //-----------------------------------------------------
+        #region Update
+        [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> Update(ReminderVM newReminder)
         {
             // نحدد إن الوقت جاينا من المستخدم وبدون timezone، نعامله كأنه بتوقيت ليبيا
@@ -206,9 +187,10 @@ namespace StudentPlanner.PL.Controllers
             await reminderData.UpdateReminderAsync(reminderEntity);
             return RedirectToAction("Index");
         }
+        #endregion
 
         //-----------------------------------------------------
-
+        #region Manage
         public async Task<IActionResult> Manage(int Id)
         {
             var reminder = await reminderData.GetReminderById(Id);
@@ -227,5 +209,41 @@ namespace StudentPlanner.PL.Controllers
 
             return View(reminderVM);
         }
+        #endregion
+        //-----------------------------------------------------
+        #region TestEmail
+        [HttpGet]
+        public async Task<IActionResult> TestEmail()
+        {
+            var userId = userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            var st = await studentData.GetStudentByIdentityUserId(userId);
+            string studentName = st.Name;
+            string type = "assignment";
+            int daysLeft = 3;
+            string userEmail = st.Email;
+
+            string timeFrame = daysLeft switch
+            {
+                1 => "tomorrow",
+                3 => "in 3 days",
+                7 => "in a week",
+                30 => "in a month",
+                _ => $"in {daysLeft} days"
+            };
+
+            string message = $"Hey {studentName}, you have {type} {timeFrame}, be ready for it!\nBreak a leg buddy <3";
+
+            await email.SendEmailAsync(userEmail, "Reminder", message);
+
+            //return Content("Email Sent Successfully!");
+
+            TempData["SuccessMessage"] = "Email Sent Successfully!";
+            return RedirectToAction("Index", "Course");
+        }
+        #endregion
     }
 }

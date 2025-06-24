@@ -1,12 +1,19 @@
-﻿@model IEnumerable<StudentPlanner.BLL.Models.AssignmentVM>
+﻿@model IEnumerable<StudentPlanner.BLL.Models.ReminderVM>
+@using StudentPlanner.BLL.Models;
+@using StudentPlanner.BLL.TimeHelper;
+
 @{
     ViewData["Title"] = "Home";
+
+    var assignments = Model?.Where(x => x.Type == ReminderType.Assignment).ToList();
+    var exams = Model?.Where(x => x.Type == ReminderType.Exam).ToList();
 }
+
 @* ----------------------------Assignments--------------------------------------- *@
 <!-- /.card -->
 <div class="card mb-4">
     <div class="card-header">
-        <h3 class="card-title fw-bold">Upcomming Assignments</h3>
+        <h3 class="card-title fw-bold text-success">Upcomming Assignments</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0 table-responsive">
@@ -15,10 +22,9 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Course</th>
-                    <th>Task</th>
-                    <th>Due Date</th>
-                    <th>Reminder</th>
-                    <th>Done</th>
+                    <th>Deadline</th>
+                    <th>Reminder Date</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,24 +39,29 @@
                 }
                 else
                 {
-                    foreach (var Item in Model)
+                    foreach (var Item in assignments)
                     {
                         count++;
+                        var reminderDate = ConvertTime.ToLibyaTime(@Item.ReminderDate);
+                        var deadline = ConvertTime.ToLibyaTime(@Item.Deadline);
+
                         <tr class="align-middle">
                             <td>@count</td>
-                            <td>Item.Course</td>
-                            <td>@Item.Title</td>
-                            <td>@Item.DueDate</td>
-                            <td>3 days before</td>
-                            @if (@Item.IsDone)
-                            {
-                                <i class="bi bi-check2-circle"></i>
-                                <td>Completed</td>
-                            } else
-                            {
-                                <i class="bi bi-hourglass-split"></i>
-                                <td>Pending</td>
-                            }
+                            <td>@Item.Course.Name</td>
+                            <td>@deadline.ToString("f")</td>
+                            <td>
+                                @reminderDate.ToString("f")
+                            </td>
+                            <td>
+                                @if (@Item.IsSent)
+                                {
+                                    <span class="badge bg-success">Sent</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">Pending</span>
+                                }
+                            </td>
                         </tr>
                     }
                 }
@@ -64,7 +75,7 @@
 <!-- /.card -->
 <div class="card mb-4">
     <div class="card-header">
-        <h3 class="card-title fw-bold">Upcomming Exams</h3>
+        <h3 class="card-title fw-bold text-danger">Upcomming Exams</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body p-0 table-responsive">
@@ -73,42 +84,45 @@
                 <tr>
                     <th style="width: 10px">#</th>
                     <th>Course</th>
-                    <th>Due Date</th>
-                    <th>Reminder</th>
-                    <th>Done</th>
+                    <th>Deadline</th>
+                    <th>Reminder Date</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                @{
-                    int ExamsCount = 0;
-                }
+
                 @if (Model == null || !Model.Any())
                 {
                     <tr>
-                        <td colspan="5" class="text-danger text-center fw-bold">No Exams!</td>
+                        <td colspan="7" class="text-danger text-center fw-bold">No Assignments!</td>
                     </tr>
                 }
                 else
                 {
-                    foreach (var Item in Model)
+                    count = 0;
+                    foreach (var Item in exams)
                     {
-                        ExamsCount++;
+                        count++;
+                        var reminderDate = ConvertTime.ToLibyaTime(@Item.ReminderDate);
+                        var deadline = ConvertTime.ToLibyaTime(@Item.Deadline);
+
                         <tr class="align-middle">
-                            <td>@ExamsCount</td>
-                            <td>Item.Course</td>
-                            @* <td>@Item.Date</td> *@
-                            <td>@Item.DueDate</td>
-                            <td>3 days before</td>
-                            @if (@Item.IsDone)
-                            {
-                                <i class="bi bi-check2-circle"></i>
-                                <td>Completed</td>
-                            }
-                            else
-                            {
-                                <i class="bi bi-hourglass-split"></i>
-                                <td>Pending</td>
-                            }
+                            <td>@count</td>
+                            <td>@Item.Course.Name</td>
+                            <td>@deadline.ToString("f")</td>
+                            <td>
+                                @reminderDate.ToString("f")
+                            </td>
+                            <td>
+                                @if (@Item.IsSent)
+                                {
+                                    <span class="badge bg-success">Sent</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">Pending</span>
+                                }
+                            </td>
                         </tr>
                     }
                 }

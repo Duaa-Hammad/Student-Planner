@@ -13,9 +13,8 @@ namespace StudentPlanner.PL.Controllers
     [Authorize]
     public class CourseController : Controller
     {
-        //Dependency Injection for Course Repository
+        #region DI
         private readonly ICourse data;
-        //AutoMapping
         private readonly IMapper mapper;
         private readonly IStudent studentData;
         private readonly IReminder reminderData;
@@ -32,6 +31,9 @@ namespace StudentPlanner.PL.Controllers
             this.assignmentData = assignmentData;
             this.examData = examData;
         }
+        #endregion
+        //-----------------------------------------------------
+        #region ViewAllCourses
         public async Task<IActionResult> Index()
         {
             //Getting the user's ID from the current session if the user is logged in
@@ -46,34 +48,20 @@ namespace StudentPlanner.PL.Controllers
                 var courses = await data.GetStudentCoursesAsync(student.Id);
                 var stCourses = mapper.Map<IEnumerable<CourseVM>>(courses);
 
-                var userReminders = await reminderData.GetRemindersByUserId(student.Id);
-
-                var remindersVM = mapper.Map<List<ReminderVM>>(userReminders);
-
-                // بناء قائمة الكورسات مع التذكيرات المرتبطة بها
-                var result = stCourses.Select(course => new CourseWithRemindersVM
-                {
-                    Course = course,
-                    Reminders = remindersVM.Where(r => r.CourseId == course.Id).ToList()
-                }).ToList();
-
-                return View(result);
-            }
+                return View(stCourses);
+            } 
         }
+        #endregion
+        //-----------------------------------------------------
+        #region Create
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseVM newCourseVM)
         {
-            //var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-
-            // Getting the user's ID from the current session if the user is logged in
-
-
             //The User here is a built-in property in ASP.NET Core.
             //It represents the currently logged -in user.
             var userId = userManager.GetUserId(User);
@@ -95,7 +83,11 @@ namespace StudentPlanner.PL.Controllers
             await data.AddCourseAsync(newCourse);
             return RedirectToAction("Index");
         }
+        #endregion
+        //-----------------------------------------------------
+        #region Delete
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int Id)
         {
             await reminderData.DeleteReminderByCourseId(Id);
@@ -106,6 +98,9 @@ namespace StudentPlanner.PL.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
+        //-----------------------------------------------------
+        #region Manage
         public async Task<IActionResult> Manage(int Id)
         {
             var courseEntity = await data.GetCourseByIdAsync(Id);
@@ -113,8 +108,11 @@ namespace StudentPlanner.PL.Controllers
             var courseVM = mapper.Map<CourseVM>(courseEntity);
             return View(courseVM);
         }
-
+        #endregion
+        //-----------------------------------------------------
+        #region Update
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(CourseVM Updatedcourse)
         {
             if (!ModelState.IsValid)
@@ -126,5 +124,6 @@ namespace StudentPlanner.PL.Controllers
             await data.UpdateCourseAsync(courseEntity);
             return RedirectToAction("Index");
         }
+        #endregion
     }
 }
