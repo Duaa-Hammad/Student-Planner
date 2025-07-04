@@ -1,0 +1,58 @@
+﻿:root {
+    --baby-blue: rgba(106, 140, 255, 0.1);
+    --blue: #2575fc !important;
+}
+
+/* Custom Gradients - Professional & Student-Friendly */
+.bg-gradient-study {
+    background: linear-gradient(135deg, #6a8cff 0%, #2575fc 100%) !important;
+}
+
+.bg-gradient-task {
+    background: linear-gradient(135deg, #4facfe 0%, #0fbbc4 100%) !important;
+}
+
+.bg-gradient-urgent {
+    background: linear-gradient(135deg, #f56e73 0%, #fd8a69 100%) !important;
+}
+
+.bg-gradient-exam {
+    background: linear-gradient(135deg, #a18cd1 0%, #f7a0df 100%) !important;
+}
+
+.bg-gradient-project {
+    background: linear-gradient(135deg, #a18cd1 0%, #5ccaff 100%) !important;
+}
+
+.bg-gradient-note {
+    background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%) !important;
+    color: #333 !important; /* Dark text for light background */
+}
+/*----------------------------------------------------------------------------*/
+/* Colorful Headers */
+.bg-gradient-task-n {
+    background: linear-gradient(135deg, #4facfe 0%, #0fbbc4 100%) !important;
+}
+
+.bg-gradient-exam-n {
+    background: linear-gradient(135deg, #a18cd1 0%, #f7a0df 100%) !important;
+}
+
+.bg-gradient-note-n {
+    background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%) !important;
+}
+/*--------------------------------------------------------------------------------*/
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .bg-gradient-note {
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%) !important;
+        color: #f7fafc !important;
+    }
+}
+
+/* Card hover effects */
+.card-hover-effect:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+}

@@ -58,7 +58,7 @@ namespace StudentPlanner.PL.Controllers
         #endregion
         //-----------------------------------------------------
         #region Create
-        public async Task<IActionResult> Create(int courseId)
+        public IActionResult Create(int courseId)
         {
             ViewBag.DepList = new SelectList(Enum.GetValues(typeof(BLL.Models.ReminderType)).Cast<BLL.Models.ReminderType>()
                .Select(e => new { Id = (int)e, Name = e.ToString() }),"Id", "Name");
@@ -76,10 +76,9 @@ namespace StudentPlanner.PL.Controllers
         public async Task<IActionResult> Create(ReminderVM model)
         {
             if (!ModelState.IsValid)
-            {
-                return PartialView("_CreateReminderPartial", model);
-            }
-
+            {      
+                  return RedirectToAction("Index","Course", model);
+             }
             // Get current logged in user Id
             var userId = userManager.GetUserId(User);
             if (userId == null) {
