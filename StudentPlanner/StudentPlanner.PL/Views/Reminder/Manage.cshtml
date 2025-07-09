@@ -67,7 +67,7 @@
         @* <button type="submit" formaction="@Url.Action("Delete")" class="btn btn-sm btn-danger">Delete Reminder</button> *@
     </form>
 
-    <!-- 👇 فورم منفصل للحذف بدون حقول Input -->
+    <!-- Separate Form for Deletion -->
     <form asp-action="Delete" asp-controller="Reminder" method="post" novalidate class="d-inline">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />

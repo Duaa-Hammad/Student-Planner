@@ -30,8 +30,8 @@ namespace StudentPlanner.BLL.Models
         public int ReminderOffsetDays { get; set; }
         [Required]
         public int CourseId { get; set; }
-        [Required(ErrorMessage = "Add note or title for your task")]
-        public string Note { get; set; }
+        //[Required(ErrorMessage = "Add note or title for your task")]
+        public string? Note { get; set; }
         public int StudentId {get; set;}
         //----------------------------
         // Navigation properties

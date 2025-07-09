@@ -90,7 +90,7 @@ namespace StudentPlanner.BLL.Repository
 
                     string message = $"Hey {studentName}, you have {Remindertype} in {courseData.Name} {timeFrame} <br/>Details:<br/>{reminder.Note}<br/>Be ready for it!<br/>Break a leg buddy<br/>I know you can do it <3";
 
-                    await email.SendEmailAsync(userEmail, "Reminder", message);
+                    await email.SendEmailAsync(userEmail, "تذكير", message);
 
                     // 5. تحديث حالة التنبيه إلى 'تم الإرسال'
                     reminder.IsSent = true;

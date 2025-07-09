@@ -147,7 +147,7 @@ namespace StudentPlanner.PL.Controllers
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                //ModelState.AddModelError("", "Email Not Found!");
+                ModelState.AddModelError("", "Something went wrong!");
                 return View(model);
             }
 
