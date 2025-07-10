@@ -76,8 +76,9 @@ namespace StudentPlanner.PL.Controllers
         public async Task<IActionResult> Create(ReminderVM model)
         {
             if (!ModelState.IsValid)
-            {      
-                  return RedirectToAction("Index","Course", model);
+            {
+                TempData["ReminderFaildMessage"] = "Faild Reminder set. All fields need to be filled";
+                return RedirectToAction("Index","Course");
              }
             // Get current logged in user Id
             var userId = userManager.GetUserId(User);
@@ -109,7 +110,8 @@ namespace StudentPlanner.PL.Controllers
                     CourseId = model.CourseId,
                     StudentId = student.Id,
                     DueDate = ConvertTime.ToUtcFromLibya(deadlineLibya),
-                    Title = model.Note,
+                    //Title = model.Note,
+                    Note = model.Note
                 };
                 await assignmentData.AddAssignment(assingEntity);
 

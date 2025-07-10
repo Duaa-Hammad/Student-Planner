@@ -11,12 +11,10 @@ namespace StudentPlanner.DAL.Entities
     {
         public Assignment() 
         {
-            Title = string.Empty;
             IsDone = false;
         }
         public int Id { get; set; } //PK
         public int CourseId { get; set; } //FK
-        public string Title { get; set; } //Like "Doing a Research"
         public string? Note { get; set; }
         public DateTime DueDate { get; set; }
         public bool IsDone { get; set; }

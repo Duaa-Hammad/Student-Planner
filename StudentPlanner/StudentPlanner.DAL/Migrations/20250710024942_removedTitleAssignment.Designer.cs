@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentPlanner.DAL.Database;
 
@@ -11,9 +12,10 @@ using StudentPlanner.DAL.Database;
 namespace StudentPlanner.DAL.Migrations
 {
     [DbContext(typeof(StPlannerContext))]
-    partial class StPlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20250710024942_removedTitleAssignment")]
+    partial class removedTitleAssignment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
