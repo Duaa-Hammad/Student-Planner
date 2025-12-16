@@ -199,13 +199,8 @@ namespace StudentPlanner.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
                     b.Property<DateTime>("LectureTime")
                         .HasColumnType("datetime2");
-=======
-                    b.Property<int>("Hours")
-                        .HasColumnType("int");
->>>>>>> 114a8fa (Created Registration Post Action)
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -326,12 +321,8 @@ namespace StudentPlanner.DAL.Migrations
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
                     b.HasIndex("IdentityUserId")
                         .IsUnique();
-=======
-                    b.HasIndex("IdentityUserId");
->>>>>>> 114a8fa (Created Registration Post Action)
 
                     b.ToTable("Students");
                 });
