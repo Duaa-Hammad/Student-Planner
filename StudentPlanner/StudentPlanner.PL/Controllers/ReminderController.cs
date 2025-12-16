@@ -77,7 +77,7 @@ namespace StudentPlanner.PL.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ReminderFaildMessage"] = "Faild Reminder set. All fields need to be filled";
+                TempData["ReminderFaildMessage"] = "Faild Reminder Set. All fields need to be filled";
                 return RedirectToAction("Index","Course");
              }
             // Get current logged in user Id

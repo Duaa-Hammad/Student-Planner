@@ -57,6 +57,7 @@
                         <th style="width: 10px">#</th>
                         <th>Course Name</th>
                         <th>Course Code</th>
+                        <th>Lecture Time</th>
                         <th>Set Reminder</th>
                         <th>Manage</th>
                     </tr>
@@ -80,6 +81,7 @@
                                 <td>@count</td>
                                 <td>@Item.Name</td>
                                 <td>@Item.Code</td>
+                                <td>@Item.LectureTime.ToString("dddd, h:mm tt")</td>
                                 <td>
                              <button class="btn btn-primary btn-sm" onclick="openReminderModal(@Item.Id)">Set Reminder</button>
                                 </td>

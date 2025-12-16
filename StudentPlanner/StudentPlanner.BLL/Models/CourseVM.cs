@@ -15,8 +15,8 @@ namespace StudentPlanner.BLL.Models
         [Required]
         public string Name { get; set; }
         public string Code { get; set; }
-        [RegularExpression(@"^\d+$", ErrorMessage = "Course hours must be a valid number.")]
-        public int Hours { get; set; }
+        //[RegularExpression(@"^\d+$", ErrorMessage = "Course hours must be a valid number.")]
+        public DateTime LectureTime { get; set; }
         //---------------------------------------------
         // Navigation properties
         public virtual Student? Student { get; set; } // Navigation property to Student

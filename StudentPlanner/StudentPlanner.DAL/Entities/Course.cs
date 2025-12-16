@@ -14,7 +14,7 @@ namespace StudentPlanner.DAL.Entities
         [Required]
         public string Name { get; set; }
         public string Code { get; set; }
-        public int Hours { get; set; }
+        public DateTime LectureTime { get; set; }
 
         //----------------------------
         // Navigation properties
